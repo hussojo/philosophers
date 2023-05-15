@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/15 13:55:41 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/15 14:10:03 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	get_args(char ** av)
 {
-	// int i = 0;
-	// while(av[i])
-	// {
-	// 	printf("av[%i]: %s\n", i, av[i]);
-	// 	i++;
-	// }
-	if (ft_atoi(av[1]) < 1)
+	// // int i = 0;
+	// // while(av[i])
+	// // {
+	// // 	printf("av[%i]: %s\n", i, av[i]);
+	// // 	i++;
+	// // }
+	// if (ft_atoi(av[1]) < 1)
 		exit(1);
 	if (ft_atoi(av[2]) <= 0)
 		exit(1);
