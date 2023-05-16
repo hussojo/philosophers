@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/15 15:12:22 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/16 10:35:24 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,15 @@ typedef struct s_philo
 	unsigned int	meal_count;
 } t_philo;
 
+typedef struct s_th
+{
+	pthread_t		p;
+	pthread_mutex_t	mutex;
+} t_th;
+
 
 // main.c
+int	check_args(int ac, char **av);
 int	get_args(char ** av);
 
 // utils.c

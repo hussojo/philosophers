@@ -6,13 +6,18 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/16 08:41:52 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/16 15:02:57 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int check_args(int ac, char **av)
+void	*thinking(void)
+{
+	printf("thinking\n");
+}
+
+int	check_args(int ac, char **av)
 {
 	int	i;
 	int	j;
@@ -45,27 +50,49 @@ int	get_args(char ** av)
 	// 	printf("av[%i]: %s\n", i, av[i]);
 	// 	i++;
 	// }
-	// philo.phil_count = ft_atoi(av[1]);
-	// if (philo.phil_count < 1)
+	philo.phil_count = ft_atoi(av[1]);
+	if (philo.phil_count < 1)
+		exit(1);
+	philo.time_to_die = ft_atoi(av[2]);
+	// if (philo.time_to_die == 0)
 	// 	exit(1);
-	// if (ft_atoi(av[2]) <= 0)
-	// 	exit(1);
-	// if (ft_atoi(av[3]) <= 0)
-	// 	exit(1);
-	// if (ft_atoi(av[4]) <= 0)
+	philo.time_to_eat = ft_atoi(av[3]);
+	if (philo.time_to_eat == 0)
+		exit(1);
+	philo.time_to_sleep = ft_atoi(av[4]);
+	// printf("%d\n", philo.time_to_sleep);
+	// if (philo.time_to_sleep == 0)
 	// 	exit(1);
 	return (0);
+}
+
+void *create_threads(void)
+{
+	t_philo	philo;
+	t_th	th;
+	int		i;
+
+	i = 0;
+	while (i <= philo.phil_count)
+	{
+		if (pthread_create(&th.p[i], NULL, &thinking, NULL) != 0)
+			return (1);
+		i++;
+	}
 }
 
 int	main(int ac, char **av)
 {
 	if(ac < 5 || ac > 6)
-		return(0); // success for now
+		return(1);
 	else
 	{
 		if (check_args(ac, av) != 0) // not zero means something wrong in arguments
 			exit (1);
-		// if (get_args(av) ! = 0);
+		if (get_args(av) != 0)
+			exit (1);
+		time(NULL);
+		create_threads();
 	}
 
 	return(0);
