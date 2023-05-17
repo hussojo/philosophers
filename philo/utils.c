@@ -6,11 +6,31 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/16 09:56:38 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/17 14:03:54 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	get_time(void)
+{
+	struct timeval		tv;
+	unsigned long long	start_time;
+
+	if (gettimeofday(&tv, NULL) == 0)
+		return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	else
+		return (0);
+}
+
+void	ft_sleep(unsigned long long ms)
+{
+	unsigned long long	time;
+
+	time = get_time();
+	while ((get_time() - time) < ms)
+		usleep (100);
+}
 
 int	ft_atoi(const char *nptr)
 {

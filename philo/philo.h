@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/17 11:42:11 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/17 14:10:36 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 # define PHILO_H
 
 # include <pthread.h>
+# include <sys/time.h> // gettimeofday
+# include <unistd.h> // usleep
 # include <stdlib.h> // exit atoi
 # include <time.h>
 # include <stdio.h> // HOXHOXHOX
 
 typedef struct s_phil
 {
-	unsigned int	id;
-	unsigned int	last_time_eat;
+	unsigned int		id;
+	unsigned long long	last_time_eat;
 } t_phil;
 
 
@@ -47,5 +49,7 @@ int		get_args(char **av, t_args *args);
 void	init_phil(t_phil *phil, int start_time);
 
 // utils.c
-int	ft_atoi(const char *nptr);
+int		get_time(void);
+void	ft_sleep(unsigned long long ms);
+int		ft_atoi(const char *nptr);
 #endif

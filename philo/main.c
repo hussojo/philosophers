@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/17 11:42:10 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/17 14:11:36 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,13 @@ int	main(int ac, char **av)
 		if (check_args(ac, av) != 0 || get_args(av, &args) != 0)  // not zero means something wrong in arguments
 			exit (1);
 		t_phil *phil = (t_phil *)malloc(sizeof(t_phil) * args.phil_count);
+		start_time = get_time();
 		init_phil(phil, start_time);
 		if (phil == NULL)
 			exit (1);
 		int i = 1;
-		printf("phil no:%i memory addres: %p", i, phil);
-		start_time = get_time(NULL);
+		printf("phil no:%i memory addres: %p\n", i, phil);
+		printf("phil no:%i last ate: %llu\n", i, phil->last_time_eat);
 		// create_threads();
 	}
 
