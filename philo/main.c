@@ -6,16 +6,11 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/17 10:24:51 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/17 11:42:10 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// void	*thinking(void)
-// {
-// 	printf("thinking\n");
-// }
 
 int	check_args(int ac, char **av)
 {
@@ -31,7 +26,7 @@ int	check_args(int ac, char **av)
 		j = 0;
 		if (av[i][j] >= '0' && av[i][j] <= '9')
 		{
-			printf("av[%i][%i]: %c\n", i, j, av[i][j]);
+			// printf("av[%i][%i]: %c\n", i, j, av[i][j]);
 			j++;
 		}
 		else
@@ -41,62 +36,63 @@ int	check_args(int ac, char **av)
 	return (0);
 }
 
-int	get_args(char ** av)
+int	get_args(char ** av, t_args *args)
 {
-	t_philo	philo;
+	// t_args	args;
 	// int i = 0;
 	// while(av[i])
 	// {
 	// 	printf("av[%i]: %s\n", i, av[i]);
 	// 	i++;
 	// }
-	philo.phil_count = ft_atoi(av[1]);
-	printf("Phil count: %d\n", philo.phil_count);
-	// if (philo.phil_count < 1)
+	args->phil_count = ft_atoi(av[1]);
+	printf("Phil count: %d\n", args->phil_count);
+	// if (args->phil_count < 1)
 	// 	exit(1);
-	philo.time_to_die = ft_atoi(av[2]);
-	printf("time to die: %d\n", philo.time_to_die);
-	if (philo.time_to_die == 0)
+	args->time_to_die = ft_atoi(av[2]);
+	printf("time to die: %d\n", args->time_to_die);
+	if (args->time_to_die == 0)
 		exit(1);
-	philo.time_to_eat = ft_atoi(av[3]);
-	printf("time to eat: %d\n", philo.time_to_eat);
-	// if (philo.time_to_eat == 0)
+	args->time_to_eat = ft_atoi(av[3]);
+	printf("time to eat: %d\n", args->time_to_eat);
+	// if (args->time_to_eat == 0)
 	// 	exit(1);
-	philo.time_to_sleep = ft_atoi(av[4]);
-	printf("time to sleep: %d\n", philo.time_to_sleep);
-	// if (philo.time_to_sleep == 0)
+	args->time_to_sleep = ft_atoi(av[4]);
+	printf("time to sleep: %d\n", args->time_to_sleep);
+	// if (args->time_to_sleep == 0)
 	// 	exit(1);
-	philo.meal_count = ft_atoi(av[5]);
-	printf("meal count: %d\n", philo.meal_count);
-	// if (philo.meal_count == 0)
+	args->meal_count = ft_atoi(av[5]);
+	printf("meal count: %d\n", args->meal_count);
+	// if (args->meal_count == 0)
 	// 	exit(1);
 	return (0);
 }
 
-// void *create_threads(void)
-// {
-// 	t_philo	philo;
-// 	t_th	th;
-// 	int		i;
-
-// 	i = 0;
-// 	while (i <= philo.phil_count)
-// 	{
-// 		if (pthread_create(&th.p[i], NULL, &thinking, NULL) != 0)
-// 			return (1);
-// 		i++;
-// 	}
-// }
+void	init_phil(t_phil *phil, int start_time)
+{
+	// phil->id = id;
+	phil->last_time_eat = start_time;
+}
 
 int	main(int ac, char **av)
 {
+	t_phil			phil;
+	t_args			args;
+	unsigned int	start_time;
+
 	if(ac < 5 || ac > 6)
 		return(1);
 	else
 	{
-		if (check_args(ac, av) != 0 || get_args(av) != 0)  // not zero means something wrong in arguments
+		if (check_args(ac, av) != 0 || get_args(av, &args) != 0)  // not zero means something wrong in arguments
 			exit (1);
-		// time(NULL);
+		t_phil *phil = (t_phil *)malloc(sizeof(t_phil) * args.phil_count);
+		init_phil(phil, start_time);
+		if (phil == NULL)
+			exit (1);
+		int i = 1;
+		printf("phil no:%i memory addres: %p", i, phil);
+		start_time = get_time(NULL);
 		// create_threads();
 	}
 

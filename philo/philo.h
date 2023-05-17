@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/17 10:17:22 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/17 11:42:11 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,21 @@
 # include <time.h>
 # include <stdio.h> // HOXHOXHOX
 
-typedef struct s_philo
+typedef struct s_phil
+{
+	unsigned int	id;
+	unsigned int	last_time_eat;
+} t_phil;
+
+
+typedef struct s_args
 {
 	unsigned int	phil_count;
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	unsigned int	meal_count;
-} t_philo;
+} t_args;
 
 typedef struct s_th
 {
@@ -35,8 +42,9 @@ typedef struct s_th
 
 
 // main.c
-int	check_args(int ac, char **av);
-int	get_args(char ** av);
+int		check_args(int ac, char **av);
+int		get_args(char **av, t_args *args);
+void	init_phil(t_phil *phil, int start_time);
 
 // utils.c
 int	ft_atoi(const char *nptr);
