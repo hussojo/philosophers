@@ -6,16 +6,11 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/16 15:02:57 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/17 09:48:46 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	*thinking(void)
-{
-	printf("thinking\n");
-}
 
 int	check_args(int ac, char **av)
 {
@@ -43,42 +38,63 @@ int	check_args(int ac, char **av)
 
 int	get_args(char ** av)
 {
-	t_philo	philo;
+	t_main	main;
 	// int i = 0;
 	// while(av[i])
 	// {
 	// 	printf("av[%i]: %s\n", i, av[i]);
 	// 	i++;
 	// }
-	philo.phil_count = ft_atoi(av[1]);
-	if (philo.phil_count < 1)
+	main.phil_count = ft_atoi(av[1]);
+	if (main.phil_count < 1)
 		exit(1);
-	philo.time_to_die = ft_atoi(av[2]);
-	// if (philo.time_to_die == 0)
+	main.time_to_die = ft_atoi(av[2]);
+	// if (main.time_to_die == 0)
 	// 	exit(1);
-	philo.time_to_eat = ft_atoi(av[3]);
-	if (philo.time_to_eat == 0)
+	main.time_to_eat = ft_atoi(av[3]);
+	if (main.time_to_eat == 0)
 		exit(1);
-	philo.time_to_sleep = ft_atoi(av[4]);
-	// printf("%d\n", philo.time_to_sleep);
-	// if (philo.time_to_sleep == 0)
+	main.time_to_sleep = ft_atoi(av[4]);
+	// printf("%d\n", main.time_to_sleep);
+	// if (main.time_to_sleep == 0)
 	// 	exit(1);
 	return (0);
 }
 
-void *create_threads(void)
+void	*thinking()
 {
-	t_philo	philo;
+	t_th	th;
+	pthread_mutex_lock(&th.mutex);
+	printf("philo thinking\n");
+	pthread_mutex_unlock(&th.mutex);
+}
+
+int	create_threads(void)
+{
+	t_main	main;
 	t_th	th;
 	int		i;
 
 	i = 0;
-	while (i <= philo.phil_count)
+	pthread_mutex_init(&th.mutex, NULL);
+	printf("main.phil_count: %i\n", main.phil_count);
+	while (i <= main.phil_count)
 	{
 		if (pthread_create(&th.p[i], NULL, &thinking, NULL) != 0)
 			return (1);
+		printf("phil no.%i created\n", i);
 		i++;
 	}
+	i = 0;
+	while (i <= main.phil_count)
+	{
+		if (pthread_join(&th.p[i], NULL) != 0)
+			return (1);
+		printf("phil no.%i joined\n", i);
+		i++;
+	}
+	pthread_mutex_destroy(&th.mutex);
+	return (0);
 }
 
 int	main(int ac, char **av)
@@ -94,6 +110,5 @@ int	main(int ac, char **av)
 		time(NULL);
 		create_threads();
 	}
-
 	return(0);
 }
