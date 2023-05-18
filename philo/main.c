@@ -6,11 +6,31 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/18 12:32:20 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/18 13:39:36 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+t_phil	**init_phil(int ac, t_table table)
+{
+	t_phil	**phil;
+	int		i;
+
+	phil = malloc(sizeof(t_phil) * table.phil_count);
+	if (!phil)
+		exit (1);
+	i = 0;
+	while (i < table.phil_count)
+	{
+		phil[i] = malloc(sizeof(t_phil));
+		phil[i]->id = i + 1;
+		phil[i]->last_time_eat = 0;
+		printf("phil no. %i created\n", phil[i]->id);
+		i++;
+	}
+	return (phil);
+}
 
 t_table	*init_table(int ac, char **av)
 {
@@ -26,6 +46,7 @@ t_table	*init_table(int ac, char **av)
 	else
 		table->meal_count = -1;
 	printf("meal count: %d\n", table->meal_count);
+	table->phil = init_phil(ac, *table);
 	return (table);
 }
 

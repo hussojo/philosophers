@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/18 12:20:09 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/18 13:33:12 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_phil
 } t_phil;
 
 // main.c
+t_phil	**init_phil(int ac, t_table table);
 t_table	*init_table(int ac, char **av);
 
 // checks.c
