@@ -6,11 +6,29 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/18 13:39:36 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/18 14:24:37 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static bool	start(t_table *table)
+{
+	int	i;
+
+	table->sim_start_time = get_time();
+	//create threads and mutexes??
+	i = 0;
+	while (i < table->phil_count)
+	{
+		if (pthread_create(&table->phil[i]->p, NULL, &think, table->phil[i]))
+			return (false);
+		i++;
+	}
+	if (pthread_create(&table->watcher, NULL, &monitor, NULL))
+		return (false);
+	return (true);
+}
 
 t_phil	**init_phil(int ac, t_table table)
 {
@@ -61,5 +79,6 @@ int	main(int ac, char **av)
 	if (valid_args(ac, av) == false)
 		exit (1);
 	table = init_table(ac, av);
+	start(table);
 	return (0);
 }
