@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:21:00 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/18 12:01:58 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/18 12:32:14 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	valid_args(int ac, char **av)
 	i = 1;
 	while (i < ac)
 	{
-		if (ft_onlydig(av[i]) == false)
+		if (is_onlydig(av[i]) == false)
 			return (false);
 		if (!ft_atoi(av[i]))
 			return (false);
