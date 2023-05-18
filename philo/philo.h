@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/17 14:10:36 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/18 11:30:36 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_phil
 
 typedef struct s_args
 {
-	unsigned int	phil_count;
+	unsigned int	phil_count; // also fork mutex count
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
@@ -44,9 +44,12 @@ typedef struct s_th
 
 
 // main.c
-int		check_args(int ac, char **av);
 int		get_args(char **av, t_args *args);
 void	init_phil(t_phil *phil, int start_time);
+
+// checks.c
+int		ft_onlydig(char *c);
+int		check_args(int ac, char **av);
 
 // utils.c
 int		get_time(void);
