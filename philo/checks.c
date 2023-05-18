@@ -6,37 +6,38 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:21:00 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/18 11:31:49 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/18 12:01:58 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_onlydig(char *c)
+static bool	is_onlydig(char *c)
 {
 	while (*c)
 	{
-		if(*c < '0' || *c > '9')
-			return (1);
+		if (*c < '0' || *c > '9')
+			return (false);
 		c++;
 	}
-	return (0);
+	return (true);
 }
 
-int	check_args(int ac, char **av) // returns 0 if true = no problems, 1 if false = invalid params
+
+
+bool	valid_args(int ac, char **av)
 {
 	int	i;
 	int	j;
 
 	i = 1;
-	// printf("ac: %i\n", ac);
 	while (i < ac)
 	{
-		if (ft_onlydig(av[i]))
-			return (1);
+		if (ft_onlydig(av[i]) == false)
+			return (false);
 		if (!ft_atoi(av[i]))
-			return (1);
+			return (false);
 		i++;
 	}
-	return (0);
+	return (true);
 }
