@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/18 14:23:06 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 08:54:55 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_table
 	unsigned long long	sim_start_time;
 	t_phil				**phil;
 	pthread_t			watcher;
+	pthread_mutex_t		start_lock;
 } 						t_table;
 
 typedef struct s_phil
@@ -44,8 +45,10 @@ typedef struct s_phil
 } 						t_phil;
 
 // main.c
-t_phil	**init_phil(int ac, t_table table);
-t_table	*init_table(int ac, char **av);
+static bool	init_mutex(t_table *table);
+static bool	start(t_table *table);
+t_phil		**init_phil(int ac, t_table *table);
+t_table		*init_table(int ac, char **av);
 
 // checks.c
 static bool	is_onlydig(char *c);
@@ -58,5 +61,5 @@ int		ft_atoi(const char *nptr);
 
 // doos.c
 void	*think(void *data);
-void	*monitor();
+void	*monitor(void *data);
 #endif
