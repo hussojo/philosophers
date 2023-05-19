@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 14:27:18 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 17:09:46 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static bool	stop(t_table *table)
 {
-	// int	i;
+	int	i;
 
-	// i = 0;
-	// while (i < table->phil_count)
-	// {
-	// 	if (pthread_join(table->phil[i]->p, NULL))
-	// 		return (false);
-	// 	else
-	// 		printf("thread no. %i joined\n", i + 1);
-	// 	i++;
-	// }
+	i = 0;
+	while (i < table->phil_count)
+	{
+		if (pthread_join(table->phil[i]->p, NULL))
+			return (false);
+		else
+			printf("thread no. %i joined\n", i + 1);
+		i++;
+	}
 	// if (pthread_join(table->watcher, NULL))
 	// 	return (false);
 	// else
@@ -47,8 +47,8 @@ static bool	start(t_table *table)
 			printf("thread no. %i created\n", i + 1);
 		i++;
 	}
-	if (pthread_create(&table->watcher, NULL, &monitor, table))
-		return (false);
+	// if (pthread_create(&table->watcher, NULL, &monitor, table))
+	// 	return (false);
 	// table->sim_start_time = get_time();
 	return (true);
 }

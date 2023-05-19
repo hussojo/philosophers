@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:52:32 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 13:38:43 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 15:46:05 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void	free_func(t_table *table)
 		free (table->phil[i]);
 		i++;
 	}
-	free (table->phil);
+	// free (table->phil);
 	free (table);
 }
