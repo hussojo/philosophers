@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 10:49:07 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 11:11:11 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ typedef struct s_phil
 // main.c
 static bool	stop(t_table *table);
 static bool	start(t_table *table);
+
+// init.c
 static bool	init_mutex(t_table *table);
 t_phil		**init_phil(int ac, t_table *table);
 t_table		*init_table(int ac, char **av);

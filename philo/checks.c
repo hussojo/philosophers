@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:21:00 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/18 12:32:14 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 11:11:04 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static bool	is_onlydig(char *c)
 	}
 	return (true);
 }
-
-
 
 bool	valid_args(int ac, char **av)
 {
