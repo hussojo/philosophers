@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 11:10:11 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 13:41:42 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_table	*init_table(int ac, char **av)
 		table->meal_count = ft_atoi(av[5]);
 	else
 		table->meal_count = -1;
+	table->sim_start_time = 0;
 	table->phil = init_phil(ac, table);
 	if (init_mutex(table) == false)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 13:12:35 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 13:56:14 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static bool	start(t_table *table)
 {
 	int	i;
 
-	// table->sim_start_time = get_time(); is this the right place?
 	i = 0;
 	while (i < table->phil_count)
 	{
@@ -50,6 +49,7 @@ static bool	start(t_table *table)
 	}
 	if (pthread_create(&table->watcher, NULL, &monitor, table))
 		return (false);
+	table->sim_start_time = get_time();
 	return (true);
 }
 

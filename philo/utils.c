@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 11:10:53 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 13:45:24 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@ int	get_time(void)
 	struct timeval		tv;
 	unsigned long long	start_time;
 
+	printf("IN GET TIME\n");
 	if (gettimeofday(&tv, NULL) == 0)
+	{
+		printf("This will be returned: %ld\n", (tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 		return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	}
 	else
 		return (0);
 }
