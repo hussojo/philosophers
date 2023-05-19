@@ -6,11 +6,28 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 08:49:46 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 10:58:24 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static bool	stop(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->phil_count)
+	{
+		if (pthread_join(table->phil[i]->p, NULL))
+			return (false);
+		else
+			printf("thread no. %i joined\n", i + 1);
+		i++;
+	}
+	pthread_mutex_destroy(&table->start_lock);
+	return (true);
+}
 
 static bool	start(t_table *table)
 {
@@ -18,22 +35,27 @@ static bool	start(t_table *table)
 
 	// table->sim_start_time = get_time(); is this the right place?
 	i = 0;
-	while (i <= table->phil_count)
+	while (i < table->phil_count)
 	{
-		if (pthread_create(&table->phil[i]->p, NULL, &think, table->phil[i]))
+		if (pthread_create(&table->phil[i]->p, NULL, &think, table->phil[i]) != 0)
 			return (false);
-		printf("thread no. %i created\n", i + 1);
+		else
+			printf("thread no. %i created\n", i + 1);
 		i++;
 	}
-	printf("%i\n", pthread_create(&table->watcher, NULL, &monitor, NULL));
-	if (pthread_create(&table->watcher, NULL, &monitor, NULL))
+	// sleep(10);
+	// exit (0);
+	if (pthread_create(&table->watcher, NULL, &monitor, table))
 		return (false);
+	printf("WTF\n");
 	return (true);
 }
 
 static bool	init_mutex(t_table *table)
 {
 	if (pthread_mutex_init(&table->start_lock, NULL))
+		return (false);
+	if (pthread_mutex_init(&table->stop_lock, NULL))
 		return (false);
 	return (true);
 }
@@ -52,6 +74,7 @@ t_phil	**init_phil(int ac, t_table *table)
 		phil[i] = malloc(sizeof(t_phil));
 		phil[i]->id = i + 1;
 		phil[i]->last_time_eat = 0;
+		phil[i]->table = table;
 		printf("phil no. %i created\n", phil[i]->id);
 		i++;
 	}
@@ -92,5 +115,6 @@ int	main(int ac, char **av)
 	if (!table)
 		exit (1);
 	start(table);
+	stop(table);
 	return (0);
 }
