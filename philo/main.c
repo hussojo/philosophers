@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 11:10:21 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 12:54:57 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static bool	stop(t_table *table)
 		i++;
 	}
 	pthread_mutex_destroy(&table->start_lock);
+	free_func(table);
 	return (true);
 }
 

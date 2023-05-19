@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 11:11:11 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 12:53:16 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,7 @@ int		ft_atoi(const char *nptr);
 // doos.c
 void	*think(void *data);
 void	*monitor(void *data);
+
+// free.c
+void	free_func(t_table *table);
 #endif
