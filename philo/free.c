@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:52:32 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 15:46:05 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 17:40:04 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ void	free_func(t_table *table)
 	int	i;
 
 	i = 0;
-	while (i < table->phil_count)
+	while (i < table->phil_count && table->phil[i])
 	{
 		free (table->phil[i]);
 		i++;
 	}
-	// free (table->phil);
+	free (table->phil);
 	free (table);
+	exit (0);
 }

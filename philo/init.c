@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 14:13:14 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/19 17:39:34 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ t_phil	**init_phil(int ac, t_table *table)
 	i = 0;
 	while (i < table->phil_count)
 	{
-		phil[i] = malloc(sizeof(t_phil));
+		phil[i] = malloc(sizeof(t_phil) * 1);
+		if (!phil[i])
+			free_func(table);
 		phil[i]->id = i + 1;
 		phil[i]->last_time_eat = 0;
 		phil[i]->table = table;
@@ -47,6 +49,8 @@ t_table	*init_table(int ac, char **av)
 	t_table	*table;
 
 	table = malloc(sizeof(t_table) * 1);
+	if (!table)
+		free_func(table);
 	table->phil_count = ft_atoi(av[1]);
 	table->time_to_die = ft_atoi(av[2]);
 	table->time_to_eat = ft_atoi(av[3]);
