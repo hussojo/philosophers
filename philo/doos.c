@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/20 09:55:41 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 12:01:01 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	*think(void *data)
 	phil = (t_phil *)data;
 	// printf("Phil nro %i was here\n", phil->id);
 	pthread_mutex_lock(&phil->table->start_lock);
+	pthread_mutex_unlock(&phil->table->start_lock);
 	time = get_time();
 	print_status(1, phil, time);
-	pthread_mutex_unlock(&phil->table->start_lock);
 	return (NULL);
 }
 
