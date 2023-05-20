@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/20 09:06:12 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 09:55:48 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # include <stdlib.h> // exit atoi
 # include <time.h>
 # include <stdio.h> // HOXHOXHOX
+
+// # define THINK "is thinking" 1
+// # define EAT "is eating" 2
+// # define SLEEP "is sleeping" 3
+// # define DIE "died" 4
+
 
 typedef struct s_phil	t_phil;
 
@@ -46,7 +52,7 @@ typedef struct s_phil
 } 						t_phil;
 
 // main.c
-static bool	stop(t_table *table);
+bool	stop(t_table *table);
 static bool	start(t_table *table);
 
 // init.c
@@ -66,6 +72,7 @@ int		ft_atoi(const char *nptr);
 // doos.c
 void	*think(void *data);
 void	print_status(int state, t_phil *phil, unsigned long long time);
+void	monitor(t_table *table);
 
 // free.c
 void	free_func(t_table *table);

@@ -6,13 +6,13 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/20 09:10:02 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 09:55:54 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static bool	stop(t_table *table)
+bool	stop(t_table *table)
 {
 	int	i;
 
@@ -60,6 +60,8 @@ int	main(int ac, char **av)
 	if (!table)
 		exit (1);
 	start(table);
-	stop(table);
+	while (42)
+		monitor(table);
+	// stop(table);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/20 09:09:58 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 09:55:41 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	*think(void *data)
 	pthread_mutex_unlock(&phil->table->start_lock);
 	return (NULL);
 }
+
 void	print_status(int state, t_phil *phil, unsigned long long time)
 {
 	unsigned long long	ts;
@@ -33,5 +34,28 @@ void	print_status(int state, t_phil *phil, unsigned long long time)
 	ts = time - phil->table->sim_start_time;
 	if (state == 1)
 		printf("%llu %u is thinking\n", ts, phil->id);
+	if (state == 4)
+		printf("%llu %u died\n", ts, phil->id);
 	pthread_mutex_unlock(&phil->table->print_lock);
+}
+
+void	monitor(t_table *table)
+{
+	int					i;
+	unsigned long long	last_meal;
+
+	i = 0;
+	while (i < table->phil_count)
+	{
+		last_meal = (get_time() - table->phil[i]->last_time_eat);
+		if (table->time_to_die < last_meal)
+		{
+			print_status(4, table->phil[i], get_time());
+			if (stop(table) == false)
+				exit(1);
+			else
+				free_func(table);
+		}
+	}
+
 }
