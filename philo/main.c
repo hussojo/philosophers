@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 17:31:38 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 09:10:02 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static bool	stop(t_table *table)
 	{
 		if (pthread_join(table->phil[i]->p, NULL))
 			return (false);
-		else
-			printf("thread no. %i joined\n", i + 1);
+		// else
+			// printf("thread no. %i joined\n", i + 1);
 		i++;
 	}
 	pthread_mutex_destroy(&table->start_lock);
@@ -39,8 +39,8 @@ static bool	start(t_table *table)
 	{
 		if (pthread_create(&table->phil[i]->p, NULL, &think, table->phil[i]))
 			return (false);
-		else
-			printf("thread no. %i created\n", i + 1);
+		// else
+			// printf("thread no. %i created\n", i + 1);
 		i++;
 	}
 	return (true);

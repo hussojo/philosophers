@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 17:56:54 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 09:06:12 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_table
 	t_phil				**phil;
 	pthread_t			watcher;
 	pthread_mutex_t		start_lock;
-	pthread_mutex_t		stop_lock;
+	pthread_mutex_t		print_lock;
 } 						t_table;
 
 typedef struct s_phil
@@ -65,7 +65,7 @@ int		ft_atoi(const char *nptr);
 
 // doos.c
 void	*think(void *data);
-void	*monitor(void *data);
+void	print_status(int state, t_phil *phil, unsigned long long time);
 
 // free.c
 void	free_func(t_table *table);

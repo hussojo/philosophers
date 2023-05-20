@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 17:39:34 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 09:10:10 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static bool	init_mutex(t_table *table)
 {
 	if (pthread_mutex_init(&table->start_lock, NULL))
 		return (false);
-	if (pthread_mutex_init(&table->stop_lock, NULL))
+	if (pthread_mutex_init(&table->print_lock, NULL))
 		return (false);
 	return (true);
 }
@@ -36,9 +36,9 @@ t_phil	**init_phil(int ac, t_table *table)
 		if (!phil[i])
 			free_func(table);
 		phil[i]->id = i + 1;
-		phil[i]->last_time_eat = 0;
+		phil[i]->last_time_eat = table->sim_start_time;
 		phil[i]->table = table;
-		printf("phil no. %i created\n", phil[i]->id);
+		// printf("phil no. %i created\n", phil[i]->id);
 		i++;
 	}
 	return (phil);
@@ -59,7 +59,7 @@ t_table	*init_table(int ac, char **av)
 		table->meal_count = ft_atoi(av[5]);
 	else
 		table->meal_count = -1;
-	table->sim_start_time = 0;
+	table->sim_start_time = get_time();
 	table->phil = init_phil(ac, table);
 	table->watcher = 0;
 	if (init_mutex(table) == false)

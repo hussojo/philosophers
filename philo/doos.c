@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 17:31:45 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 09:09:58 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,24 @@
 
 void	*think(void *data)
 {
-	t_phil	*phil;
+	t_phil				*phil;
+	unsigned long long	time;
 
 	phil = (t_phil *)data;
 	// printf("Phil nro %i was here\n", phil->id);
 	pthread_mutex_lock(&phil->table->start_lock);
-	printf("phil no. %i thinkin\n", phil->id);
+	time = get_time();
+	print_status(1, phil, time);
 	pthread_mutex_unlock(&phil->table->start_lock);
 	return (NULL);
+}
+void	print_status(int state, t_phil *phil, unsigned long long time)
+{
+	unsigned long long	ts;
+
+	pthread_mutex_lock(&phil->table->print_lock);
+	ts = time - phil->table->sim_start_time;
+	if (state == 1)
+		printf("%llu %u is thinking\n", ts, phil->id);
+	pthread_mutex_unlock(&phil->table->print_lock);
 }
