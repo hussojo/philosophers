@@ -6,11 +6,24 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/20 09:09:50 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 14:56:09 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	print_status(int state, t_phil *phil)
+{
+	unsigned long long	ts;
+
+	pthread_mutex_lock(&phil->table->print_lock);
+	ts = get_time() - phil->table->sim_start_time;
+	if (state == 1)
+		printf("%llu %u is thinking\n", ts, phil->id);
+	if (state == 4)
+		printf("%llu %u died\n", ts, phil->id);
+	pthread_mutex_unlock(&phil->table->print_lock);
+}
 
 int	get_time(void)
 {

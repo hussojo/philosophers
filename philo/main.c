@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/20 10:01:05 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 14:48:21 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static bool	start(t_table *table)
 	i = 0;
 	while (i < table->phil_count)
 	{
-		if (pthread_create(&table->phil[i]->p, NULL, &think, table->phil[i]))
+		if (pthread_create(&table->phil[i]->p, NULL, &routine, table->phil[i]))
 			return (false);
 		// else
 			// printf("thread no. %i created\n", i + 1);

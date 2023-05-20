@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/20 09:55:48 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/20 14:58:13 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,15 @@ static bool	is_onlydig(char *c);
 bool		valid_args(int ac, char **av);
 
 // utils.c
+void	print_status(int state, t_phil *phil);
 int		get_time(void);
 void	ft_sleep(unsigned long long ms);
 int		ft_atoi(const char *nptr);
 
 // doos.c
-void	*think(void *data);
-void	print_status(int state, t_phil *phil, unsigned long long time);
+void	eat(t_phil *phil);
+void	think(t_phil *phil);
+void	*routine(void *data);
 void	monitor(t_table *table);
 
 // free.c
