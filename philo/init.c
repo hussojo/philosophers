@@ -6,11 +6,27 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/20 09:10:10 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/21 07:56:25 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static bool	init_forks(t_table *table)
+{
+	int	i;
+
+	table->fork_lock = malloc(sizeof(table->fork_lock) * table->phil_count);
+	i = 0;
+	while (i < table->phil_count)
+	{
+		if (pthread_mutex_init(&table->fork_lock[i], NULL))
+			return (false);
+		else
+			i++;
+	}
+	return (true);
+}
 
 static bool	init_mutex(t_table *table)
 {
@@ -60,6 +76,8 @@ t_table	*init_table(int ac, char **av)
 	else
 		table->meal_count = -1;
 	table->sim_start_time = get_time();
+	if (init_forks(table) == false)
+		return (0);
 	table->phil = init_phil(ac, table);
 	table->watcher = 0;
 	if (init_mutex(table) == false)

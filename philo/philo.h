@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/20 14:58:13 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/21 07:55:27 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 // # define EAT "is eating" 2
 // # define SLEEP "is sleeping" 3
 // # define DIE "died" 4
+// # define FORK "has taken a fork" 5
 
 
 typedef struct s_phil	t_phil;
@@ -37,6 +38,7 @@ typedef struct s_table
 	unsigned int		time_to_sleep;
 	unsigned int		meal_count;
 	unsigned long long	sim_start_time;
+	pthread_mutex_t		*fork_lock;
 	t_phil				**phil;
 	pthread_t			watcher;
 	pthread_mutex_t		start_lock;
@@ -56,6 +58,7 @@ bool	stop(t_table *table);
 static bool	start(t_table *table);
 
 // init.c
+static bool	init_forks(t_table *table);
 static bool	init_mutex(t_table *table);
 t_phil		**init_phil(int ac, t_table *table);
 t_table		*init_table(int ac, char **av);
