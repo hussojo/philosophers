@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/21 07:56:25 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/21 08:02:07 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_phil	**init_phil(int ac, t_table *table)
 		if (!phil[i])
 			free_func(table);
 		phil[i]->id = i + 1;
+		phil[i]->meals_eaten = 0;
 		phil[i]->last_time_eat = table->sim_start_time;
 		phil[i]->table = table;
 		// printf("phil no. %i created\n", phil[i]->id);

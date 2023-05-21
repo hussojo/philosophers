@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/21 07:55:27 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/21 08:02:11 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,18 @@ typedef struct s_table
 	unsigned int		time_to_sleep;
 	unsigned int		meal_count;
 	unsigned long long	sim_start_time;
-	pthread_mutex_t		*fork_lock;
 	t_phil				**phil;
 	pthread_t			watcher;
 	pthread_mutex_t		start_lock;
 	pthread_mutex_t		print_lock;
+	pthread_mutex_t		*fork_lock;
 } 						t_table;
 
 typedef struct s_phil
 {
 	pthread_t			p;
 	unsigned int		id;
+	unsigned int		meals_eaten;
 	unsigned long long	last_time_eat;
 	t_table				*table;
 } 						t_phil;
