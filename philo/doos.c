@@ -6,11 +6,18 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/21 08:06:44 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/21 09:11:41 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	sleeping(t_phil *phil)
+{
+	print_status(3, phil);
+	ft_sleep(phil->table->time_to_sleep);
+	think(phil);
+}
 
 void	eat(t_phil *phil)
 {
@@ -24,11 +31,16 @@ void	eat(t_phil *phil)
 	phil->meals_eaten += phil->meals_eaten;
 	ft_sleep(phil->table->time_to_eat);
 	pthread_mutex_unlock(&phil->table->start_lock);
+	pthread_mutex_unlock(&phil->table->fork_lock[phil->id + 1]);
+	pthread_mutex_unlock(&phil->table->fork_lock[phil->id]);
+	sleeping(phil);
 }
 
 void	think(t_phil *phil)
 {
 	print_status(1, phil);
+	ft_sleep(phil->table->time_to_eat);
+	eat(phil);
 }
 
 void	*routine(void *data)
@@ -44,7 +56,7 @@ void	*routine(void *data)
 		eat(phil);
 	else
 		think(phil);
-	print_status(1, phil);
+	// print_status(1, phil);
 	return (NULL);
 }
 

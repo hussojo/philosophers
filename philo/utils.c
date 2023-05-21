@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/21 08:07:59 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/21 08:48:16 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	print_status(int state, t_phil *phil)
 		printf("%llu %u is thinking\n", ts, phil->id);
 	if (state == 2)
 		printf("%llu %u is eating\n", ts, phil->id);
+	if (state == 3)
+		printf("%llu %u is sleeping\n", ts, phil->id);
 	if (state == 4)
 		printf("%llu %u died\n", ts, phil->id);
 	if (state == 5)
