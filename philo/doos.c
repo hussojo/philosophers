@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/22 15:11:02 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/22 16:10:03 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	eat(t_phil *phil)
 	print_status(5, phil);
 	if (phil->id == phil->table->phil_count)
 	{
-		// printf("*****\nHERE\n*****\n");
+		printf("*****\nHERE\n*****\n");
 		pthread_mutex_lock(&phil->table->fork_lock[0]);
 	}
 	else
@@ -59,9 +59,9 @@ void	*routine(void *data)
 	pthread_mutex_lock(&phil->table->start_lock);
 	pthread_mutex_unlock(&phil->table->start_lock);
 	if ((phil->id % 2) == 0)
-		think(phil);
-	else
 		eat(phil);
+	else
+		think(phil);
 	// print_status(1, phil);
 	return (NULL);
 }
