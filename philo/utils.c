@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/22 10:25:18 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/22 10:50:16 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void	print_status(int state, t_phil *phil)
 	pthread_mutex_lock(&phil->table->print_lock);
 	ts = get_time() - phil->table->sim_start_time;
 	if (state == 1)
-		printf("%llu %u is thinking\n", ts, phil->id);
+		printf("\e[31m %llu %u is thinking\n", ts, phil->id);
 	if (state == 2)
-		printf("%llu %u is eating\n", ts, phil->id);
+		printf("\e[32m %llu %u is eating\n", ts, phil->id);
 	if (state == 3)
-		printf("%llu %u is sleeping\n", ts, phil->id);
+		printf("\e[35m %llu %u is sleeping\n", ts, phil->id);
 	if (state == 4)
 		printf("%llu %u died\n", ts, phil->id);
 	if (state == 5)
-		printf("%llu %u has taken a fork\n", ts, phil->id);
+		printf("\e[36m %llu %u has taken a fork\n", ts, phil->id);
 	if (state == 6)
 		printf("%llu %u ERRORERRORERRORERROR\n", ts, phil->id);
 	pthread_mutex_unlock(&phil->table->print_lock);

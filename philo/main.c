@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/20 14:48:21 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/22 11:14:04 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 bool	stop(t_table *table)
 {
+	printf("*****\nHERE\n*****\n");
 	int	i;
 
 	i = 0;
@@ -26,6 +27,11 @@ bool	stop(t_table *table)
 		i++;
 	}
 	pthread_mutex_destroy(&table->start_lock);
+	while (table->fork_lock)
+	{
+		pthread_mutex_destroy(table->fork_lock);
+		table->fork_lock++;
+	}
 	free_func(table);
 	return (true);
 }
@@ -61,7 +67,10 @@ int	main(int ac, char **av)
 		exit (1);
 	start(table);
 	while (42)
-		monitor(table);
+	{
+		if (monitor(table) == true)
+		exit (0);
+	}
 	// stop(table);
 	return (0);
 }

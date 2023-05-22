@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/22 10:14:04 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/22 11:12:15 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,19 @@
 # include <time.h>
 # include <stdio.h> // HOXHOXHOX
 
+// colors
+# define NC		"\e[0m"
+# define RED	"\e[31m"
+# define GREEN	"\e[32m"
+# define PURPLE	"\e[35m"
+# define CYAN	"\e[36m"
+
 // # define THINK "is thinking" 1
 // # define EAT "is eating" 2
 // # define SLEEP "is sleeping" 3
 // # define DIE "died" 4
 // # define FORK "has taken a fork" 5
-
+// # define ERROR "xxx" 6
 
 typedef struct s_phil	t_phil;
 
@@ -80,7 +87,7 @@ void	sleeping(t_phil *phil);
 void	eat(t_phil *phil);
 void	think(t_phil *phil);
 void	*routine(void *data);
-void	monitor(t_table *table);
+bool	monitor(t_table *table);
 
 // free.c
 void	free_func(t_table *table);

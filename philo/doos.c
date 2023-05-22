@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/22 10:26:56 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/22 11:19:21 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	*routine(void *data)
 	return (NULL);
 }
 
-void	monitor(t_table *table)
+bool	monitor(t_table *table) // is_dead()
 {
 	int					i;
 	unsigned long long	last_meal;
@@ -72,22 +72,23 @@ void	monitor(t_table *table)
 		if (table->time_to_die < last_meal)
 		{
 			print_status(4, table->phil[i]);
-			// if (stop(table) == false)
-			// 	exit(1);
-			// else
-			free_func(table);
-		}
-		if (table->phil[i]->meals_eaten >= table->meal_count)
-		{
-			// print_status(6, *table->phil);
-			table->all_eat++;
-		}
-		if (table->all_eat >= table->phil_count)
-		{
-			free_func(table);
 			exit (0);
+			// if (stop(table) == true)
+			// 	return (true);
 		}
-
+		if (table->meal_count > 0)
+		{
+			if (table->phil[i]->meals_eaten >= table->meal_count)
+			{
+				table->all_eat++;
+				printf("%i\n", table->all_eat);
+			}
+			if (table->all_eat >= table->phil_count)
+			{
+				if (stop(table) == true)
+					return (true);
+			}
+		}
 	}
-
+	return (false);
 }
