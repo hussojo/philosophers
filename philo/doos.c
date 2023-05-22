@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/22 11:19:21 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/22 11:47:43 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	sleeping(t_phil *phil)
 
 void	eat(t_phil *phil)
 {
-	pthread_mutex_lock(&phil->table->fork_lock[phil->id]);
+	pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]);
 	print_status(5, phil);
-	pthread_mutex_lock(&phil->table->fork_lock[phil->id + 1]);
+	pthread_mutex_lock(&phil->table->fork_lock[phil->id]);
 	print_status(5, phil);
 	pthread_mutex_lock(&phil->table->start_lock);
 	print_status(2, phil);
