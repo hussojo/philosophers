@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/22 11:47:43 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/22 15:11:02 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,20 @@ void	eat(t_phil *phil)
 {
 	pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]);
 	print_status(5, phil);
-	pthread_mutex_lock(&phil->table->fork_lock[phil->id]);
+	if (phil->id == phil->table->phil_count)
+	{
+		// printf("*****\nHERE\n*****\n");
+		pthread_mutex_lock(&phil->table->fork_lock[0]);
+	}
+	else
+		pthread_mutex_lock(&phil->table->fork_lock[phil->id]);
 	print_status(5, phil);
 	pthread_mutex_lock(&phil->table->start_lock);
 	print_status(2, phil);
 	phil->last_time_eat = get_time();
 	phil->meals_eaten++;
-	ft_sleep(phil->table->time_to_eat);
 	pthread_mutex_unlock(&phil->table->start_lock);
+	ft_sleep(phil->table->time_to_eat);
 	pthread_mutex_unlock(&phil->table->fork_lock[phil->id + 1]);
 	pthread_mutex_unlock(&phil->table->fork_lock[phil->id]);
 	sleeping(phil);
@@ -53,9 +59,9 @@ void	*routine(void *data)
 	pthread_mutex_lock(&phil->table->start_lock);
 	pthread_mutex_unlock(&phil->table->start_lock);
 	if ((phil->id % 2) == 0)
-		eat(phil);
-	else
 		think(phil);
+	else
+		eat(phil);
 	// print_status(1, phil);
 	return (NULL);
 }
@@ -72,7 +78,7 @@ bool	monitor(t_table *table) // is_dead()
 		if (table->time_to_die < last_meal)
 		{
 			print_status(4, table->phil[i]);
-			exit (0);
+			exit (0); // PROBLEM
 			// if (stop(table) == true)
 			// 	return (true);
 		}
