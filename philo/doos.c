@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/22 08:17:45 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/22 10:26:56 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	eat(t_phil *phil)
 	pthread_mutex_lock(&phil->table->start_lock);
 	print_status(2, phil);
 	phil->last_time_eat = get_time();
-	phil->meals_eaten += phil->meals_eaten;
+	phil->meals_eaten++;
 	ft_sleep(phil->table->time_to_eat);
 	pthread_mutex_unlock(&phil->table->start_lock);
 	pthread_mutex_unlock(&phil->table->fork_lock[phil->id + 1]);
@@ -72,11 +72,22 @@ void	monitor(t_table *table)
 		if (table->time_to_die < last_meal)
 		{
 			print_status(4, table->phil[i]);
-			if (stop(table) == false)
-				exit(1);
-			else
-				free_func(table);
+			// if (stop(table) == false)
+			// 	exit(1);
+			// else
+			free_func(table);
 		}
+		if (table->phil[i]->meals_eaten >= table->meal_count)
+		{
+			// print_status(6, *table->phil);
+			table->all_eat++;
+		}
+		if (table->all_eat >= table->phil_count)
+		{
+			free_func(table);
+			exit (0);
+		}
+
 	}
 
 }

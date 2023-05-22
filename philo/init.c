@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/21 08:02:07 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/22 10:14:39 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,12 @@ t_table	*init_table(int ac, char **av)
 	else
 		table->meal_count = -1;
 	table->sim_start_time = get_time();
-	if (init_forks(table) == false)
-		return (0);
+	table->all_eat = 0;
 	table->phil = init_phil(ac, table);
-	table->watcher = 0;
+	// table->watcher = 0;
 	if (init_mutex(table) == false)
+		return (0);
+	if (init_forks(table) == false)
 		return (0);
 	return (table);
 }

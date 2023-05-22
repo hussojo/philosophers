@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/21 08:48:16 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/22 10:25:18 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	print_status(int state, t_phil *phil)
 		printf("%llu %u died\n", ts, phil->id);
 	if (state == 5)
 		printf("%llu %u has taken a fork\n", ts, phil->id);
+	if (state == 6)
+		printf("%llu %u ERRORERRORERRORERROR\n", ts, phil->id);
 	pthread_mutex_unlock(&phil->table->print_lock);
 }
 
