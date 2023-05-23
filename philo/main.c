@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/22 11:14:04 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/23 10:03:27 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	stop(t_table *table)
 {
-	printf("*****\nHERE\n*****\n");
 	int	i;
 
 	i = 0;
@@ -22,8 +21,6 @@ bool	stop(t_table *table)
 	{
 		if (pthread_join(table->phil[i]->p, NULL))
 			return (false);
-		// else
-			// printf("thread no. %i joined\n", i + 1);
 		i++;
 	}
 	pthread_mutex_destroy(&table->start_lock);
@@ -44,9 +41,6 @@ static bool	start(t_table *table)
 	while (i < table->phil_count)
 	{
 		if (pthread_create(&table->phil[i]->p, NULL, &routine, table->phil[i]))
-			return (false);
-		// else
-			// printf("thread no. %i created\n", i + 1);
 		i++;
 	}
 	return (true);
@@ -68,9 +62,8 @@ int	main(int ac, char **av)
 	start(table);
 	while (42)
 	{
-		if (monitor(table) == true)
-		exit (0);
+		if (is_dead(table) == true)
+			stop(table);
 	}
-	// stop(table);
 	return (0);
 }
