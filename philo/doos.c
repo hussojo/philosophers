@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 10:48:44 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/23 11:47:53 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	eat(t_phil *phil)
 		think(phil);
 	}
 	else
-		print_status(5, phil);
+		print_status(6, phil);
 	pthread_mutex_lock(&phil->table->start_lock);
 	print_status(2, phil);
 	phil->last_time_eat = get_time();

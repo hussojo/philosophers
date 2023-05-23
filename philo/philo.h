@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 10:49:06 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/23 11:47:54 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@
 // # define SLEEP "is sleeping" 3
 // # define DIE "died" 4
 // # define FORK "has taken a fork" 5
-// # define ERROR "xxx" 6
+// # define FORK "has taken a fork" 6
+// # define ERROR "xxx" 7
 
 typedef struct s_phil	t_phil;
 
