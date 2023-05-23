@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 10:03:27 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/23 10:15:08 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static bool	start(t_table *table)
 	while (i < table->phil_count)
 	{
 		if (pthread_create(&table->phil[i]->p, NULL, &routine, table->phil[i]))
+			return (false);
 		i++;
 	}
 	return (true);
@@ -62,7 +63,7 @@ int	main(int ac, char **av)
 	start(table);
 	while (42)
 	{
-		if (is_dead(table) == true)
+		if (monitor(table) == true)
 			stop(table);
 	}
 	return (0);

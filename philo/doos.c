@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 10:03:28 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/23 10:13:22 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ void	eat(t_phil *phil)
 {
 	if (pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]))
 		think(phil);
-	print_status(5, phil);
+	else
+		print_status(5, phil);
 	if (pthread_mutex_lock(&phil->table->fork_lock[phil->id]))
 	{
 		pthread_mutex_unlock(&phil->table->fork_lock[phil->id - 1]);
 		think(phil);
 	}
-	print_status(5, phil);
+	else
+		print_status(5, phil);
 	pthread_mutex_lock(&phil->table->start_lock);
 	print_status(2, phil);
 	phil->last_time_eat = get_time();
@@ -54,6 +56,7 @@ void	*routine(void *data)
 	unsigned long long	time;
 
 	phil = (t_phil *)data;
+	// printf("Phil nro %i was here\n", phil->id);
 	pthread_mutex_lock(&phil->table->start_lock);
 	pthread_mutex_unlock(&phil->table->start_lock);
 	if ((phil->id % 2) == 0)
@@ -67,7 +70,7 @@ void	*routine(void *data)
 	return (NULL);
 }
 
-bool	is_dead(t_table *table) // is_dead()
+bool	monitor(t_table *table) // is_dead()
 {
 	int					i;
 	unsigned long long	last_meal;
@@ -88,7 +91,7 @@ bool	is_dead(t_table *table) // is_dead()
 			if (table->phil[i]->meals_eaten >= table->meal_count)
 			{
 				table->all_eat++;
-				// printf("%i\n", table->all_eat);
+				printf("%i\n", table->all_eat);
 			}
 			if (table->all_eat >= table->phil_count)
 			{
