@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 10:13:22 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/23 10:48:44 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	*routine(void *data)
 	return (NULL);
 }
 
-bool	monitor(t_table *table) // is_dead()
+bool	is_dead(t_table *table) // is_dead()
 {
 	int					i;
 	unsigned long long	last_meal;

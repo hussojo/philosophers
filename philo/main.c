@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 10:15:08 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/23 10:49:02 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int ac, char **av)
 	start(table);
 	while (42)
 	{
-		if (monitor(table) == true)
+		if (is_dead(table) == true)
 			stop(table);
 	}
 	return (0);

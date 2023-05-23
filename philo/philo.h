@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 10:09:44 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/23 10:49:06 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,10 @@ typedef struct s_table
 	unsigned long long	sim_start_time;
 	unsigned int		all_eat;
 	t_phil				**phil;
-	// pthread_t			watcher;
 	pthread_mutex_t		start_lock;
 	pthread_mutex_t		print_lock;
 	pthread_mutex_t		*fork_lock;
-} 						t_table;
+}						t_table;
 
 typedef struct s_phil
 {
@@ -60,10 +59,10 @@ typedef struct s_phil
 	unsigned int		meals_eaten;
 	unsigned long long	last_time_eat;
 	t_table				*table;
-} 						t_phil;
+}						t_phil;
 
 // main.c
-bool	stop(t_table *table);
+bool		stop(t_table *table);
 static bool	start(t_table *table);
 
 // init.c
@@ -87,7 +86,7 @@ void	sleeping(t_phil *phil);
 void	eat(t_phil *phil);
 void	think(t_phil *phil);
 void	*routine(void *data);
-bool	monitor(t_table *table);
+bool	is_dead(t_table *table);
 
 // free.c
 void	free_func(t_table *table);
