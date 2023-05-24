@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 10:23:46 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 11:29:35 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ void	stop(t_table *table)
 			exit (-1);
 		i++;
 	}
-	// pthread_mutex_destroy(&table->start_lock);
-	// pthread_mutex_destroy(&table->print_lock);
-	// i = 0;
-	// while (i < table->phil_count)
-	// {
-	// 	pthread_mutex_destroy(table->fork_lock);
-	// 	i++;
-	// }
-	// printf("*****\nHERE STOP\n*****\n");
+	pthread_mutex_destroy(&table->start_lock);
+	pthread_mutex_destroy(&table->print_lock);
+	i = 0;
+	while (i < table->phil_count)
+	{
+		pthread_mutex_destroy(table->fork_lock);
+		i++;
+	}
+	printf("*****\nHERE STOP\n*****\n");
 	free_func(table);
 }
 

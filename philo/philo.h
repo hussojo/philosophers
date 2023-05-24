@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 09:42:00 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 11:23:05 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int		ft_atoi(const char *nptr);
 // doos.c
 void	sleeping(t_phil *phil);
 void	eat(t_phil *phil);
-void	think(t_phil *phil);
 void	*routine(void *data);
 bool	is_dead(t_table *table);
 

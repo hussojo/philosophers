@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 11:08:58 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 11:22:52 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ void	sleeping(t_phil *phil)
 {
 	print_status(3, phil);
 	ft_sleep(phil->table->time_to_sleep);
-	think(phil);
+	// think(phil);
+	eat(phil);
 }
 
 void	eat(t_phil *phil)
 {
+	print_status(1, phil);
 	pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]);
 	print_status(5, phil);
 	if (phil->id == phil->table->phil_count)
@@ -40,13 +42,6 @@ void	eat(t_phil *phil)
 		pthread_mutex_unlock(&phil->table->fork_lock[phil->id]);
 	pthread_mutex_unlock(&phil->table->fork_lock[phil->id - 1]);
 	sleeping(phil);
-}
-
-void	think(t_phil *phil)
-{
-	print_status(1, phil);
-	ft_sleep(100);
-	eat(phil);
 }
 
 void	*routine(void *data)
