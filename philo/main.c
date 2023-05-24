@@ -6,31 +6,36 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 10:49:02 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 10:23:46 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-bool	stop(t_table *table)
+void	stop(t_table *table)
 {
 	int	i;
-
+	// printf("*****\nHERE STOP\n*****\n");
 	i = 0;
+	// printf("Nroof Phil: %d\n", table->phil_count);
 	while (i < table->phil_count)
 	{
+		printf("i=%d\n", i);
+		printf("*****\nHERE STOP EXIT\n*****\n");
 		if (pthread_join(table->phil[i]->p, NULL))
-			return (false);
+			exit (-1);
 		i++;
 	}
-	pthread_mutex_destroy(&table->start_lock);
-	while (table->fork_lock)
-	{
-		pthread_mutex_destroy(table->fork_lock);
-		table->fork_lock++;
-	}
+	// pthread_mutex_destroy(&table->start_lock);
+	// pthread_mutex_destroy(&table->print_lock);
+	// i = 0;
+	// while (i < table->phil_count)
+	// {
+	// 	pthread_mutex_destroy(table->fork_lock);
+	// 	i++;
+	// }
+	// printf("*****\nHERE STOP\n*****\n");
 	free_func(table);
-	return (true);
 }
 
 static bool	start(t_table *table)
@@ -64,7 +69,11 @@ int	main(int ac, char **av)
 	while (42)
 	{
 		if (is_dead(table) == true)
+		{
+			printf("*****\nHERE MAIN\n*****\n");
 			stop(table);
+			// free_func(table);
+		}
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 11:49:05 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 10:02:19 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,28 @@ void	print_status(int state, t_phil *phil)
 {
 	unsigned long long	ts;
 
-	pthread_mutex_lock(&phil->table->print_lock);
-	ts = get_time() - phil->table->sim_start_time;
-	if (state == 7)
-		printf("%llu %u ERRORERRORERRORERROR\n", ts, phil->id);
-	if (state == 1)
-		printf("\e[31m %llu %u is thinking\n", ts, phil->id);
-	if (state == 2)
-		printf("\e[32m %llu %u is eating\n", ts, phil->id);
-	if (state == 3)
-		printf("\e[35m %llu %u is sleeping\n", ts, phil->id);
-	if (state == 4)
-		printf("%llu %u died\n", ts, phil->id);
-	if (state == 5)
-		printf("\e[36m %llu %u has taken a right fork\n", ts, phil->id);
-	if (state == 6)
-		printf("\e[36m %llu %u has taken a left fork\n", ts, phil->id);
-	pthread_mutex_unlock(&phil->table->print_lock);
+	if (phil->table->dead == 0)
+	{
+		pthread_mutex_lock(&phil->table->print_lock);
+		ts = get_time() - phil->table->sim_start_time;
+		if (state == 7)
+			printf("%llu %u ERRORERRORERRORERROR\n", ts, phil->id);
+		if (state == 1)
+			printf("\e[31m %llu %u is thinking\n", ts, phil->id);
+		if (state == 2)
+			printf("\e[32m %llu %u is eating\n", ts, phil->id);
+		if (state == 3)
+			printf("\e[35m %llu %u is sleeping\n", ts, phil->id);
+		if (state == 4)
+			printf("%llu %u died\n", ts, phil->id);
+		if (state == 5)
+			printf("\e[36m %llu %u has taken a right fork\n", ts, phil->id);
+		if (state == 6)
+			printf("\e[36m %llu %u has taken a left fork\n", ts, phil->id);
+		pthread_mutex_unlock(&phil->table->print_lock);
+	}
+	else
+		stop(phil->table);
 }
 
 int	get_time(void)

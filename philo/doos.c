@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 11:47:53 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 11:08:58 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,24 @@ void	sleeping(t_phil *phil)
 
 void	eat(t_phil *phil)
 {
-	if (pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]))
-		think(phil);
+	pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]);
+	print_status(5, phil);
+	if (phil->id == phil->table->phil_count)
+		pthread_mutex_lock(&phil->table->fork_lock[0]);
 	else
-		print_status(5, phil);
-	if (pthread_mutex_lock(&phil->table->fork_lock[phil->id]))
-	{
-		pthread_mutex_unlock(&phil->table->fork_lock[phil->id - 1]);
-		think(phil);
-	}
-	else
-		print_status(6, phil);
+		pthread_mutex_lock(&phil->table->fork_lock[phil->id]);
+	print_status(6, phil);
 	pthread_mutex_lock(&phil->table->start_lock);
 	print_status(2, phil);
 	phil->last_time_eat = get_time();
 	phil->meals_eaten++;
-	pthread_mutex_unlock(&phil->table->start_lock);
 	ft_sleep(phil->table->time_to_eat);
+	pthread_mutex_unlock(&phil->table->start_lock);
+	if (phil->id == phil->table->phil_count)
+		pthread_mutex_unlock(&phil->table->fork_lock[0]);
+	else
+		pthread_mutex_unlock(&phil->table->fork_lock[phil->id]);
 	pthread_mutex_unlock(&phil->table->fork_lock[phil->id - 1]);
-	pthread_mutex_unlock(&phil->table->fork_lock[phil->id]);
 	sleeping(phil);
 }
 
@@ -53,10 +52,8 @@ void	think(t_phil *phil)
 void	*routine(void *data)
 {
 	t_phil				*phil;
-	unsigned long long	time;
 
 	phil = (t_phil *)data;
-	// printf("Phil nro %i was here\n", phil->id);
 	pthread_mutex_lock(&phil->table->start_lock);
 	pthread_mutex_unlock(&phil->table->start_lock);
 	if ((phil->id % 2) == 0)
@@ -70,34 +67,32 @@ void	*routine(void *data)
 	return (NULL);
 }
 
-bool	is_dead(t_table *table) // is_dead()
+bool	is_dead(t_table *table)
 {
 	int					i;
 	unsigned long long	last_meal;
+	unsigned long long	ts;
 
 	i = 0;
 	while (i < table->phil_count)
 	{
 		last_meal = (get_time() - table->phil[i]->last_time_eat);
+		ts = get_time() - table->sim_start_time;
 		if (table->time_to_die < last_meal)
 		{
-			print_status(4, table->phil[i]);
-			exit (0); // PROBLEM
-			// if (stop(table) == true)
-			// 	return (true);
+			table->dead = 1;
+			printf("%llu %u died\n", ts, table->phil[i]->id);
+			stop(table);
+			return (true);
 		}
+		if (table->dead == 1)
+			stop(table);
 		if (table->meal_count > 0)
 		{
 			if (table->phil[i]->meals_eaten >= table->meal_count)
-			{
 				table->all_eat++;
-				printf("%i\n", table->all_eat);
-			}
 			if (table->all_eat >= table->phil_count)
-			{
-				if (stop(table) == true)
-					return (true);
-			}
+				return(true);
 		}
 	}
 	return (false);

@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/22 10:14:39 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 10:23:45 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static bool	init_forks(t_table *table)
 	{
 		if (pthread_mutex_init(&table->fork_lock[i], NULL))
 			return (false);
-		else
-			i++;
+		i++;
 	}
 	return (true);
 }
@@ -51,11 +50,11 @@ t_phil	**init_phil(int ac, t_table *table)
 		phil[i] = malloc(sizeof(t_phil) * 1);
 		if (!phil[i])
 			free_func(table);
+		phil[i]->p = 0;
 		phil[i]->id = i + 1;
 		phil[i]->meals_eaten = 0;
 		phil[i]->last_time_eat = table->sim_start_time;
 		phil[i]->table = table;
-		// printf("phil no. %i created\n", phil[i]->id);
 		i++;
 	}
 	return (phil);
@@ -76,10 +75,10 @@ t_table	*init_table(int ac, char **av)
 		table->meal_count = ft_atoi(av[5]);
 	else
 		table->meal_count = -1;
+	table->dead = 0;
 	table->sim_start_time = get_time();
 	table->all_eat = 0;
 	table->phil = init_phil(ac, table);
-	// table->watcher = 0;
 	if (init_mutex(table) == false)
 		return (0);
 	if (init_forks(table) == false)
