@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 11:23:05 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:09:23 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,14 @@ typedef struct s_table
 	unsigned int		time_to_eat;
 	unsigned int		time_to_sleep;
 	unsigned int		meal_count;
-	unsigned int		dead; // 1 = on 0 = off
+	unsigned int		dead_flag; // 1 = on 0 = off
 	unsigned long long	sim_start_time;
 	unsigned int		all_eat;
 	t_phil				**phil;
 	pthread_mutex_t		start_lock;
 	pthread_mutex_t		print_lock;
 	pthread_mutex_t		*fork_lock;
+	pthread_mutex_t		maintenance;
 }						t_table;
 
 typedef struct s_phil
@@ -76,6 +77,7 @@ t_table		*init_table(int ac, char **av);
 // checks.c
 static bool	is_onlydig(char *c);
 bool		valid_args(int ac, char **av);
+void		is_dead(t_phil *phil, t_table *table);
 
 // utils.c
 void	print_status(int state, t_phil *phil);
@@ -87,7 +89,7 @@ int		ft_atoi(const char *nptr);
 void	sleeping(t_phil *phil);
 void	eat(t_phil *phil);
 void	*routine(void *data);
-bool	is_dead(t_table *table);
+bool	monitor(t_table *table);
 
 // free.c
 void	free_func(t_table *table);

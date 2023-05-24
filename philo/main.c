@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 11:29:35 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:12:30 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,8 @@
 void	stop(t_table *table)
 {
 	int	i;
-	// printf("*****\nHERE STOP\n*****\n");
+
 	i = 0;
-	// printf("Nroof Phil: %d\n", table->phil_count);
-	while (i < table->phil_count)
-	{
-		printf("i=%d\n", i);
-		printf("*****\nHERE STOP EXIT\n*****\n");
-		if (pthread_join(table->phil[i]->p, NULL))
-			exit (-1);
-		i++;
-	}
 	pthread_mutex_destroy(&table->start_lock);
 	pthread_mutex_destroy(&table->print_lock);
 	i = 0;
@@ -34,8 +25,6 @@ void	stop(t_table *table)
 		pthread_mutex_destroy(table->fork_lock);
 		i++;
 	}
-	printf("*****\nHERE STOP\n*****\n");
-	free_func(table);
 }
 
 static bool	start(t_table *table)
@@ -68,12 +57,14 @@ int	main(int ac, char **av)
 	start(table);
 	while (42)
 	{
-		if (is_dead(table) == true)
+		if (monitor(table) == false)
 		{
-			printf("*****\nHERE MAIN\n*****\n");
-			stop(table);
+			// system("leaks philo");
+			exit (1);
+			// stop(table);
 			// free_func(table);
 		}
 	}
+	while (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 11:22:52 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:21:26 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ void	sleeping(t_phil *phil)
 
 void	eat(t_phil *phil)
 {
+	is_dead(phil, phil->table);
+	// if (monitor(phil->table) == false)
+	// 	stop(phil->table);
 	print_status(1, phil);
 	pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]);
 	print_status(5, phil);
@@ -61,34 +64,14 @@ void	*routine(void *data)
 	}
 	return (NULL);
 }
-
-bool	is_dead(t_table *table)
+bool	monitor(t_table *table)
 {
-	int					i;
-	unsigned long long	last_meal;
-	unsigned long long	ts;
-
-	i = 0;
-	while (i < table->phil_count)
+	if (table->dead_flag == 1)
+		return (false);
+	if (table->meal_count > 0)
 	{
-		last_meal = (get_time() - table->phil[i]->last_time_eat);
-		ts = get_time() - table->sim_start_time;
-		if (table->time_to_die < last_meal)
-		{
-			table->dead = 1;
-			printf("%llu %u died\n", ts, table->phil[i]->id);
-			stop(table);
-			return (true);
-		}
-		if (table->dead == 1)
-			stop(table);
-		if (table->meal_count > 0)
-		{
-			if (table->phil[i]->meals_eaten >= table->meal_count)
-				table->all_eat++;
-			if (table->all_eat >= table->phil_count)
-				return(true);
-		}
+		if (table->all_eat >= table->phil_count)
+			return (false);
 	}
-	return (false);
+	return (true);
 }

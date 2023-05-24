@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 10:23:45 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:09:40 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static bool	init_mutex(t_table *table)
 	if (pthread_mutex_init(&table->start_lock, NULL))
 		return (false);
 	if (pthread_mutex_init(&table->print_lock, NULL))
+		return (false);
+	if (pthread_mutex_init(&table->maintenance, NULL))
 		return (false);
 	return (true);
 }
@@ -75,7 +77,7 @@ t_table	*init_table(int ac, char **av)
 		table->meal_count = ft_atoi(av[5]);
 	else
 		table->meal_count = -1;
-	table->dead = 0;
+	table->dead_flag = 0;
 	table->sim_start_time = get_time();
 	table->all_eat = 0;
 	table->phil = init_phil(ac, table);

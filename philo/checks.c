@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:21:00 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/19 14:08:10 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:23:25 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,39 @@ bool	valid_args(int ac, char **av)
 	}
 	return (true);
 }
+
+void	is_dead(t_phil *phil, t_table *table)
+{
+	unsigned long long	ts;
+	unsigned long long	last_meal;
+
+	ts = get_time() - phil->table->sim_start_time;
+	pthread_mutex_lock(&table->maintenance);
+	last_meal = (get_time() - phil->last_time_eat);
+	if (table->time_to_die < last_meal)
+	{
+		table->dead_flag = 1;
+		printf("%llu %u died\n", ts, phil->id);
+		exit (0);
+	}
+	pthread_mutex_unlock(&table->maintenance);
+}
+	// i = 0;
+	// while (i < table->phil_count)
+	// {
+	// 	if (table->dead_flag == 1)
+	// 	{
+	// 		printf("exiting!");
+	// 		stop(table);
+	// 		exit (0);
+	// 	}
+	// 	if (table->meal_count > 0)
+	// 	{
+	// 		if (table->phil[i]->meals_eaten >= table->meal_count)
+	// 			table->all_eat++;
+	// 		if (table->all_eat >= table->phil_count)
+	// 			return(true);
+	// 	}
+	// }
+	// return (false);
+
