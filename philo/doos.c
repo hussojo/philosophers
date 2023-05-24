@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/23 16:44:45 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/23 11:47:53 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	*routine(void *data)
 	t_phil				*phil;
 	unsigned long long	time;
 
-	//printf("PHILO:%d START TIME:%llu\n", phil->id, phil->table->sim_start_time);
 	phil = (t_phil *)data;
 	// printf("Phil nro %i was here\n", phil->id);
 	pthread_mutex_lock(&phil->table->start_lock);
