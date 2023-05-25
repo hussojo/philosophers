@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 16:09:23 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/25 09:29:48 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_table
 	unsigned int		dead_flag; // 1 = on 0 = off
 	unsigned long long	sim_start_time;
 	unsigned int		all_eat;
+	unsigned int		meal_flag;
 	t_phil				**phil;
 	pthread_mutex_t		start_lock;
 	pthread_mutex_t		print_lock;
@@ -78,6 +79,7 @@ t_table		*init_table(int ac, char **av);
 static bool	is_onlydig(char *c);
 bool		valid_args(int ac, char **av);
 void		is_dead(t_phil *phil, t_table *table);
+void		all_meals(t_phil *phil, t_table *table);
 
 // utils.c
 void	print_status(int state, t_phil *phil);

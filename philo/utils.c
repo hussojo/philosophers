@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 16:22:46 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/25 09:32:19 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ void	print_status(int state, t_phil *phil)
 {
 	unsigned long long	ts;
 
-	is_dead(phil, phil->table);
+	// is_dead(phil, phil->table);
 	pthread_mutex_lock(&phil->table->print_lock);
 	ts = get_time() - phil->table->sim_start_time;
-	// if (phil->table-> dead_flag == 1)
-	// 	printf("%llu %u died\n", ts, phil->id);
-	// else
-	// {
+	if (phil->table-> dead_flag == 1 || phil->table->meal_flag == 1)
+	{
+		// printf("%llu %u died\n", ts, phil->id);
+		exit (0);
+	}
+	else
+	{
 		if (state == 7)
 			printf("%llu %u ERRORERRORERRORERROR\n", ts, phil->id);
 		if (state == 1)
@@ -35,7 +38,7 @@ void	print_status(int state, t_phil *phil)
 			printf("\e[36m %llu %u has taken a right fork\n", ts, phil->id);
 		if (state == 6)
 			printf("\e[36m %llu %u has taken a left fork\n", ts, phil->id);
-	// }
+	}
 	pthread_mutex_unlock(&phil->table->print_lock);
 }
 

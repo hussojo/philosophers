@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 16:21:26 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/25 09:31:37 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ void	sleeping(t_phil *phil)
 void	eat(t_phil *phil)
 {
 	is_dead(phil, phil->table);
-	// if (monitor(phil->table) == false)
-	// 	stop(phil->table);
+	all_meals(phil, phil->table);
 	print_status(1, phil);
 	pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]);
 	print_status(5, phil);
