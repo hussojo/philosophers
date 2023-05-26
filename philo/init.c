@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 16:09:40 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/26 10:37:18 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ t_phil	**init_phil(int ac, t_table *table)
 		phil[i]->id = i + 1;
 		phil[i]->meals_eaten = 0;
 		phil[i]->last_time_eat = table->sim_start_time;
+		if (pthread_mutex_init(&phil[i]->meal_lock, NULL))
+			return (false);
 		phil[i]->table = table;
 		i++;
 	}

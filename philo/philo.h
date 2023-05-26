@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/25 09:29:48 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/26 10:50:59 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_phil
 	unsigned int		id;
 	unsigned int		meals_eaten;
 	unsigned long long	last_time_eat;
+	pthread_mutex_t		meal_lock;
 	t_table				*table;
 }						t_phil;
 
@@ -80,6 +81,7 @@ static bool	is_onlydig(char *c);
 bool		valid_args(int ac, char **av);
 void		is_dead(t_phil *phil, t_table *table);
 void		all_meals(t_phil *phil, t_table *table);
+void		set_flags(t_phil *phil, t_table *table);
 
 // utils.c
 void	print_status(int state, t_phil *phil);

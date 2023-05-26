@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/24 16:12:30 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/26 11:41:54 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void	stop(t_table *table)
 	int	i;
 
 	i = 0;
+	printf("*****\nHERE stop\n*****\n");
+	print_status(4, *table->phil);
+	pthread_mutex_destroy(&table->maintenance);
 	pthread_mutex_destroy(&table->start_lock);
 	pthread_mutex_destroy(&table->print_lock);
 	i = 0;
@@ -25,6 +28,7 @@ void	stop(t_table *table)
 		pthread_mutex_destroy(table->fork_lock);
 		i++;
 	}
+	exit(0);
 }
 
 static bool	start(t_table *table)
@@ -59,12 +63,13 @@ int	main(int ac, char **av)
 	{
 		if (monitor(table) == false)
 		{
+			printf("*****\nHERE MAIN\n*****\n");
+			stop(table);
 			// system("leaks philo");
-			exit (1);
+			// exit (1);
 			// stop(table);
 			// free_func(table);
 		}
 	}
-	while (1);
 	return (0);
 }
