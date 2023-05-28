@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/26 11:41:54 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/28 09:30:42 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	stop(t_table *table)
 	int	i;
 
 	i = 0;
+	print_status(4, *table->phil); // HERE?????? DOEAS NOT GET PRINTED AFTER PRINT STATUS
 	printf("*****\nHERE stop\n*****\n");
-	print_status(4, *table->phil);
 	pthread_mutex_destroy(&table->maintenance);
 	pthread_mutex_destroy(&table->start_lock);
 	pthread_mutex_destroy(&table->print_lock);
@@ -70,6 +70,7 @@ int	main(int ac, char **av)
 			// stop(table);
 			// free_func(table);
 		}
+		ft_sleep(100);
 	}
 	return (0);
 }

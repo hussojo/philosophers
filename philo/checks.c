@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:21:00 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/26 11:25:30 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/28 10:23:13 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	is_dead(t_phil *phil, t_table *table)
 	unsigned long long	last_meal;
 
 	last_meal = (get_time() - phil->last_time_eat);
-	if (table->time_to_die < last_meal)
+	// printf("*** Phil no. %i last meal: %llu\n", phil->id, last_meal);
+	if (table->time_to_die <= last_meal)
 	{
 		table->dead_flag = 1;
 		exit (0);

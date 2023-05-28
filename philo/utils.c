@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/26 11:41:16 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/28 10:23:22 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_status(int state, t_phil *phil)
 	ts = get_time() - phil->table->sim_start_time;
 	if (state == 1)
 		printf("\e[31m %llu %u is thinking\n", ts, phil->id);
-	else if (state == 2)
+	if (state == 2)
 		printf("\e[32m %llu %u is eating\n", ts, phil->id);
 	else if (state == 3)
 		printf("\e[35m %llu %u is sleeping\n", ts, phil->id);

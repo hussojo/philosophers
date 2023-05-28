@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/26 11:42:41 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/28 10:22:16 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	sleeping(t_phil *phil)
 {
+	// THIS MAKES NO DIFFERENCE IN DYING ACCURACY
+	// pthread_mutex_lock(&phil->table->maintenance);
+	// set_flags(phil, phil->table);
+	// pthread_mutex_unlock(&phil->table->maintenance);
 	print_status(3, phil);
 	ft_sleep(phil->table->time_to_sleep);
 	eat(phil);
@@ -23,12 +27,6 @@ void	eat(t_phil *phil)
 {
 	pthread_mutex_lock(&phil->table->maintenance);
 	set_flags(phil, phil->table);
-	if (monitor(phil->table) == false)
-	{
-		printf("*****\nHERE EAT\n*****\n");
-		stop(phil->table);
-	}
-		// print_status(4, phil);
 	pthread_mutex_unlock(&phil->table->maintenance);
 	print_status(1, phil);
 	pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]);
@@ -71,12 +69,20 @@ void	*routine(void *data)
 }
 bool	monitor(t_table *table)
 {
+	// printf("table->dead_flag : %i\n", table->dead_flag);
 	if (table->dead_flag == 1)
+	{
+		printf("***\n returning false\n***\n");
 		return (false);
+	}
 	if (table->meal_count > 0)
 	{
 		if (table->all_eat >= table->phil_count)
+		{
+			printf("***\n returning false\n***\n");
 			return (false);
+		}
 	}
+	// printf("***\n returning true\n***\n");
 	return (true);
 }
