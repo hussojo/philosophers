@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/26 10:37:18 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/28 16:05:13 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_phil	**init_phil(int ac, t_table *table)
 		phil[i]->id = i + 1;
 		phil[i]->meals_eaten = 0;
 		phil[i]->last_time_eat = table->sim_start_time;
+		// printf("IN PHIL INIT: last meal: %llu\n", phil[i]->last_time_eat);
 		if (pthread_mutex_init(&phil[i]->meal_lock, NULL))
 			return (false);
 		phil[i]->table = table;
@@ -80,8 +81,11 @@ t_table	*init_table(int ac, char **av)
 	else
 		table->meal_count = -1;
 	table->dead_flag = 0;
+	table->dead_id = -1;
 	table->sim_start_time = get_time();
+	// printf("IN TABLE INIT: SIM START: %llu\n", table->sim_start_time);
 	table->all_eat = 0;
+	table->meal_flag = 0;
 	table->phil = init_phil(ac, table);
 	if (init_mutex(table) == false)
 		return (0);

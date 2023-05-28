@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/28 09:30:42 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/28 16:11:51 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,18 @@
 
 void	stop(t_table *table)
 {
-	int	i;
+	int					i;
+	unsigned long long	ts;
 
+	// printf("*****\nHERE STOP\n*****\n");
 	i = 0;
-	print_status(4, *table->phil); // HERE?????? DOEAS NOT GET PRINTED AFTER PRINT STATUS
-	printf("*****\nHERE stop\n*****\n");
+	pthread_mutex_lock(&table->print_lock);
+	if (table->dead_id > 0)
+	{
+		ts = get_time() - table->sim_start_time;
+		printf("\e[31m %llu %i died\n", ts, table->dead_id);
+	}
+	pthread_mutex_unlock(&table->print_lock);
 	pthread_mutex_destroy(&table->maintenance);
 	pthread_mutex_destroy(&table->start_lock);
 	pthread_mutex_destroy(&table->print_lock);
@@ -47,9 +54,10 @@ static bool	start(t_table *table)
 
 int	main(int ac, char **av)
 {
-	t_phil			*phil;
-	t_table			*table;
-	unsigned int	start_time;
+	t_phil				*phil;
+	t_table				*table;
+	unsigned int		start_time;
+	unsigned long long	ts;
 
 	if (ac < 5 || ac > 6)
 		exit (1);
@@ -62,15 +70,7 @@ int	main(int ac, char **av)
 	while (42)
 	{
 		if (monitor(table) == false)
-		{
-			printf("*****\nHERE MAIN\n*****\n");
 			stop(table);
-			// system("leaks philo");
-			// exit (1);
-			// stop(table);
-			// free_func(table);
-		}
-		ft_sleep(100);
 	}
 	return (0);
 }

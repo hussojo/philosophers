@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:21:00 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/28 10:23:13 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/28 16:09:14 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,39 @@ bool	valid_args(int ac, char **av)
 	return (true);
 }
 
-void	is_dead(t_phil *phil, t_table *table)
+bool	is_dead(t_phil *phil, t_table *table)
 {
-	unsigned long long	last_meal;
-
-	last_meal = (get_time() - phil->last_time_eat);
-	// printf("*** Phil no. %i last meal: %llu\n", phil->id, last_meal);
-	if (table->time_to_die <= last_meal)
+	// printf("HOXHOXHOX");
+	// printf("table->time_to_die: %u\n", table->time_to_die);
+	// printf("time since last meal %i: %llu\n", phil->id, get_time() - phil->last_time_eat);
+	if (table->time_to_die <= (get_time() - phil->last_time_eat))
 	{
 		table->dead_flag = 1;
-		exit (0);
+		return (true);
 	}
+	return (false);
 }
 
-void	all_meals(t_phil *phil, t_table *table)
+bool	all_meals_eaten(t_phil *phil, t_table *table)
 {
 	if (phil->meals_eaten >= table->meal_count)
 		table->all_eat++;
 	if (table->all_eat >= table->phil_count)
+	{
 		table->meal_flag = 1;
+		return (true);
+	}
+	return (false);
 }
 
-void	set_flags(t_phil *phil, t_table *table)
+bool	flags_up(t_phil *phil, t_table *table)
 {
-	is_dead(phil, phil->table);
-	all_meals(phil, phil->table);
+	if (is_dead(phil, phil->table) == true)
+	{
+		printf("is_dead is returning true/n");
+		return (true);
+	}
+	if (all_meals_eaten(phil, phil->table) == true)
+		return (true);
+	return (false);
 }

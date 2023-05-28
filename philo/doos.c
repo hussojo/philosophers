@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/28 10:22:16 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/28 16:12:41 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@
 
 void	sleeping(t_phil *phil)
 {
-	// THIS MAKES NO DIFFERENCE IN DYING ACCURACY
-	// pthread_mutex_lock(&phil->table->maintenance);
-	// set_flags(phil, phil->table);
-	// pthread_mutex_unlock(&phil->table->maintenance);
 	print_status(3, phil);
-	ft_sleep(phil->table->time_to_sleep);
+	ft_sleep(phil->table->time_to_sleep, phil);
 	eat(phil);
 }
 
 void	eat(t_phil *phil)
 {
 	pthread_mutex_lock(&phil->table->maintenance);
-	set_flags(phil, phil->table);
+	if (flags_up(phil, phil->table) == true)
+		stop(phil->table);
 	pthread_mutex_unlock(&phil->table->maintenance);
 	print_status(1, phil);
 	pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]);
@@ -40,7 +37,7 @@ void	eat(t_phil *phil)
 	pthread_mutex_lock(&phil->meal_lock);
 	phil->last_time_eat = get_time();
 	phil->meals_eaten++;
-	ft_sleep(phil->table->time_to_eat);
+	ft_sleep(phil->table->time_to_eat, phil);
 	pthread_mutex_unlock(&phil->meal_lock);
 	if (phil->id == phil->table->phil_count)
 		pthread_mutex_unlock(&phil->table->fork_lock[0]);
@@ -62,27 +59,32 @@ void	*routine(void *data)
 	else
 	{
 		print_status(1, phil);
-		ft_sleep(phil->table->time_to_eat);
+		ft_sleep(phil->table->time_to_eat, phil);
 		eat(phil);
 	}
 	return (NULL);
 }
 bool	monitor(t_table *table)
 {
-	// printf("table->dead_flag : %i\n", table->dead_flag);
-	if (table->dead_flag == 1)
+	int	i;
+
+	i = 0;
+	while (table->phil[i])
 	{
-		printf("***\n returning false\n***\n");
-		return (false);
+		if (table->time_to_die <= (get_time() - table->phil[i]->last_time_eat))
+		{
+			table->dead_flag = 1;
+			table->dead_id = table->phil[i]->id;
+			return (false);
+		}
+		i++;
 	}
+	if (table->dead_flag == 1)
+		return (false);
 	if (table->meal_count > 0)
 	{
 		if (table->all_eat >= table->phil_count)
-		{
-			printf("***\n returning false\n***\n");
 			return (false);
-		}
 	}
-	// printf("***\n returning true\n***\n");
 	return (true);
 }

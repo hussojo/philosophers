@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/26 10:50:59 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/28 15:42:12 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ typedef struct s_table
 	unsigned int		time_to_die;
 	unsigned int		time_to_eat;
 	unsigned int		time_to_sleep;
-	unsigned int		meal_count;
+	int					meal_count;
 	unsigned int		dead_flag; // 1 = on 0 = off
+	int					dead_id; // 1 = on 0 = off
 	unsigned long long	sim_start_time;
 	unsigned int		all_eat;
 	unsigned int		meal_flag;
@@ -79,14 +80,14 @@ t_table		*init_table(int ac, char **av);
 // checks.c
 static bool	is_onlydig(char *c);
 bool		valid_args(int ac, char **av);
-void		is_dead(t_phil *phil, t_table *table);
-void		all_meals(t_phil *phil, t_table *table);
-void		set_flags(t_phil *phil, t_table *table);
+bool		is_dead(t_phil *phil, t_table *table);
+bool		all_meals_eaten(t_phil *phil, t_table *table);
+bool		flags_up(t_phil *phil, t_table *table);
 
 // utils.c
 void	print_status(int state, t_phil *phil);
 int		get_time(void);
-void	ft_sleep(unsigned long long ms);
+void	ft_sleep(unsigned long long ms, t_phil *phil);
 int		ft_atoi(const char *nptr);
 
 // doos.c
