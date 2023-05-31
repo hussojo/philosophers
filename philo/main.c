@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/28 16:11:51 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/31 10:49:21 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,14 @@ static bool	start(t_table *table)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&table->start_lock);
 	while (i < table->phil_count)
 	{
 		if (pthread_create(&table->phil[i]->p, NULL, &routine, table->phil[i]))
 			return (false);
 		i++;
 	}
+	pthread_mutex_unlock(&table->start_lock);
 	return (true);
 }
 

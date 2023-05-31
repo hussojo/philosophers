@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/28 15:42:12 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/31 10:52:28 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ typedef struct s_phil
 	pthread_t			p;
 	unsigned int		id;
 	unsigned int		meals_eaten;
+	unsigned int		all_meals_eaten;
 	unsigned long long	last_time_eat;
+	// unsigned int		dead_flag;
 	pthread_mutex_t		meal_lock;
 	t_table				*table;
 }						t_phil;

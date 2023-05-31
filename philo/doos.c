@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/28 16:12:41 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/31 11:11:35 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ void	eat(t_phil *phil)
 	pthread_mutex_lock(&phil->meal_lock);
 	phil->last_time_eat = get_time();
 	phil->meals_eaten++;
-	ft_sleep(phil->table->time_to_eat, phil);
+	// printf("phil[%i] mealss eaten: %i\n", phil->id, phil->meals_eaten);
 	pthread_mutex_unlock(&phil->meal_lock);
+	ft_sleep(phil->table->time_to_eat, phil);
 	if (phil->id == phil->table->phil_count)
 		pthread_mutex_unlock(&phil->table->fork_lock[0]);
 	else
@@ -64,7 +65,8 @@ void	*routine(void *data)
 	}
 	return (NULL);
 }
-bool	monitor(t_table *table)
+
+bool	monitor(t_table *table) // who has access to these params???
 {
 	int	i;
 
@@ -77,14 +79,18 @@ bool	monitor(t_table *table)
 			table->dead_id = table->phil[i]->id;
 			return (false);
 		}
+		if (table->meal_count > 0)
+		{
+			if (table->phil[i]->meals_eaten >= table->meal_count // phil[i] meals eaten is read at the same time as updated in eat??
+				&& table->phil[i]->all_meals_eaten == 0)
+			{
+				table->all_eat++;
+				table->phil[i]->all_meals_eaten = 1;
+			}
+			if (table->all_eat >= table->phil_count)
+				return (false);
+		}
 		i++;
-	}
-	if (table->dead_flag == 1)
-		return (false);
-	if (table->meal_count > 0)
-	{
-		if (table->all_eat >= table->phil_count)
-			return (false);
 	}
 	return (true);
 }
