@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/31 10:52:28 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/01 10:41:26 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_table
 	unsigned int		time_to_sleep;
 	int					meal_count;
 	unsigned int		dead_flag; // 1 = on 0 = off
-	int					dead_id; // 1 = on 0 = off
+	// int					dead_id; // 1 = on 0 = off
 	unsigned long long	sim_start_time;
 	unsigned int		all_eat;
 	unsigned int		meal_flag;
@@ -70,7 +70,7 @@ typedef struct s_phil
 }						t_phil;
 
 // main.c
-void		stop(t_table *table);
+void		stop(t_phil *phil, t_table *table);
 static bool	start(t_table *table);
 
 // init.c

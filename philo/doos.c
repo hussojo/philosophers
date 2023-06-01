@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/01 08:42:15 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/01 10:41:22 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ void	sleeping(t_phil *phil)
 
 void	eat(t_phil *phil)
 {
-	pthread_mutex_lock(&phil->table->maintenance);
-	if (flags_up(phil, phil->table) == true)
-		stop(phil->table);
-	pthread_mutex_unlock(&phil->table->maintenance);
+	// flags_up(phil, phil->table);
 	print_status(1, phil);
 	pthread_mutex_lock(&phil->table->fork_lock[phil->id - 1]);
 	print_status(5, phil);
@@ -37,8 +34,8 @@ void	eat(t_phil *phil)
 	pthread_mutex_lock(&phil->meal_lock);
 	phil->last_time_eat = get_time();
 	phil->meals_eaten++;
-	// printf("phil[%i] mealss eaten: %i\n", phil->id, phil->meals_eaten);
 	pthread_mutex_unlock(&phil->meal_lock);
+	flags_up(phil, phil->table);
 	ft_sleep(phil->table->time_to_eat, phil);
 	if (phil->id == phil->table->phil_count)
 		pthread_mutex_unlock(&phil->table->fork_lock[0]);
@@ -71,28 +68,26 @@ bool	monitor(t_table *table)
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(&table->maintenance);
+	// pthread_mutex_lock(&table->maintenance);
 	while (table->phil[i])
 	{
-		if (table->time_to_die <= (get_time() - table->phil[i]->last_time_eat))
-		{
-			table->dead_flag = 1;
-			table->dead_id = table->phil[i]->id;
+		if (is_dead(table->phil[i], table) == true)
 			return (false);
-		}
 		if (table->meal_count > 0)
 		{
-			if (table->phil[i]->meals_eaten >= table->meal_count // phil[i] meals eaten is read at the same time as updated in eat??
-				&& table->phil[i]->all_meals_eaten == 0)
-			{
-				table->all_eat++;
-				table->phil[i]->all_meals_eaten = 1;
-			}
-			if (table->all_eat >= table->phil_count)
-			{
-				table->meal_flag = 1;
-				return (false);
-			}
+			if (all_meals_eaten(table->phil[i], table) == true)
+				return  (false);
+			// if (table->phil[i]->meals_eaten >= table->meal_count // phil[i] meals eaten is read at the same time as updated in eat??
+			// 	&& table->phil[i]->all_meals_eaten == 0)
+			// {
+			// 	table->all_eat++;
+			// 	table->phil[i]->all_meals_eaten = 1;
+			// }
+			// if (table->all_eat >= table->phil_count)
+			// {
+			// 	table->meal_flag = 1;
+			// 	return (false);
+			// }
 		}
 		i++;
 	}

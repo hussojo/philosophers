@@ -6,23 +6,25 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/01 08:42:54 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/01 10:47:55 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	stop(t_table *table)
+void	stop(t_phil *phil, t_table *table)
 {
 	int					i;
 	unsigned long long	ts;
-
+	pthread_mutex_unlock(&table->maintenance);
 	i = 0;
 	pthread_mutex_lock(&table->print_lock);
-	if (table->dead_id > 0)
+	if (table->dead_flag == 1)
 	{
 		ts = get_time() - table->sim_start_time;
-		printf("\e[31m %llu %i died\n", ts, table->dead_id);
+		printf("***HERE***%i\n", table->phil[i]->id);
+		print_status(4, phil);
+		// printf("\e[31m %llu %i died\n", ts, phil->id);
 	}
 	pthread_mutex_unlock(&table->print_lock);
 	pthread_mutex_destroy(&table->maintenance);
@@ -71,7 +73,7 @@ int	main(int ac, char **av)
 	while (42)
 	{
 		if (monitor(table) == false)
-			stop(table);
+			stop(phil, table);
 	}
 	return (0);
 }

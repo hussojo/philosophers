@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/01 08:36:32 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/01 10:45:07 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ void	print_status(int state, t_phil *phil)
 {
 	unsigned long long	ts;
 
-	pthread_mutex_lock(&phil->table->maintenance);
-	if (flags_up(phil, phil->table) == true)
-		stop(phil->table);
-	pthread_mutex_unlock(&phil->table->maintenance);
+	flags_up(phil, phil->table);
 	pthread_mutex_lock(&phil->table->print_lock);
 	ts = get_time() - phil->table->sim_start_time;
 	if (state == 1)
@@ -28,6 +25,8 @@ void	print_status(int state, t_phil *phil)
 		printf("\e[32m %llu %u is eating\n", ts, phil->id);
 	else if (state == 3)
 		printf("\e[35m %llu %u is sleeping\n", ts, phil->id);
+	else if (state == 4)
+		printf("\e[35m %llu %u died\n", ts, phil->id);
 	else if (state == 5)
 		printf("\e[36m %llu %u has taken a right fork\n", ts, phil->id);
 	else if (state == 6)
@@ -53,10 +52,7 @@ void	ft_sleep(unsigned long long ms, t_phil *phil)
 	time = get_time();
 	while ((get_time() - time) < ms)
 	{
-		// pthread_mutex_lock(&phil->table->maintenance);
-		// if (flags_up(phil, phil->table) == true)
-		// 	stop(phil->table);
-		// pthread_mutex_unlock(&phil->table->maintenance);
+		flags_up(phil, phil->table);
 		usleep (500);
 	}
 }

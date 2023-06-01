@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/31 15:50:09 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/01 10:41:21 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_table	*init_table(int ac, char **av)
 		table->meal_count = -1;
 	// printf("table_meal_count: %i\n", table->meal_count);
 	table->dead_flag = 0;
-	table->dead_id = -1;
+	// table->dead_id = -1;
 	table->sim_start_time = get_time();
 	// printf("IN TABLE INIT: SIM START: %llu\n", table->sim_start_time);
 	table->all_eat = 0;
