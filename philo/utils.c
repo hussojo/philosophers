@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/31 10:49:23 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/01 08:36:32 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ void	ft_sleep(unsigned long long ms, t_phil *phil)
 	time = get_time();
 	while ((get_time() - time) < ms)
 	{
-		pthread_mutex_lock(&phil->table->maintenance);
-		if (flags_up(phil, phil->table) == true)
-			stop(phil->table);
-		pthread_mutex_unlock(&phil->table->maintenance);
+		// pthread_mutex_lock(&phil->table->maintenance);
+		// if (flags_up(phil, phil->table) == true)
+		// 	stop(phil->table);
+		// pthread_mutex_unlock(&phil->table->maintenance);
 		usleep (500);
 	}
 }
