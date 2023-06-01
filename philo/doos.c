@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:12:45 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/31 11:11:35 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/31 16:23:36 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,12 @@ void	*routine(void *data)
 	return (NULL);
 }
 
-bool	monitor(t_table *table) // who has access to these params???
+bool	monitor(t_table *table)
 {
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&table->maintenance);
 	while (table->phil[i])
 	{
 		if (table->time_to_die <= (get_time() - table->phil[i]->last_time_eat))
@@ -88,9 +89,14 @@ bool	monitor(t_table *table) // who has access to these params???
 				table->phil[i]->all_meals_eaten = 1;
 			}
 			if (table->all_eat >= table->phil_count)
+			{
+				table->meal_flag = 1;
 				return (false);
+			}
 		}
 		i++;
 	}
+	pthread_mutex_unlock(&table->maintenance);
+	usleep(500);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/05/31 10:49:21 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/05/31 15:38:35 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	stop(t_table *table)
 	int					i;
 	unsigned long long	ts;
 
-	// printf("*****\nHERE STOP\n*****\n");
 	i = 0;
 	pthread_mutex_lock(&table->print_lock);
 	if (table->dead_id > 0)
