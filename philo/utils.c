@@ -6,32 +6,33 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/01 10:45:07 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/02 15:05:35 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_status(int state, t_phil *phil)
+int	print_status(int state, t_phil *phil)
 {
 	unsigned long long	ts;
 
-	flags_up(phil, phil->table);
 	pthread_mutex_lock(&phil->table->print_lock);
-	ts = get_time() - phil->table->sim_start_time;
-	if (state == 1)
-		printf("\e[31m %llu %u is thinking\n", ts, phil->id);
-	else if (state == 2)
-		printf("\e[32m %llu %u is eating\n", ts, phil->id);
-	else if (state == 3)
-		printf("\e[35m %llu %u is sleeping\n", ts, phil->id);
-	else if (state == 4)
-		printf("\e[35m %llu %u died\n", ts, phil->id);
-	else if (state == 5)
-		printf("\e[36m %llu %u has taken a right fork\n", ts, phil->id);
-	else if (state == 6)
-		printf("\e[36m %llu %u has taken a left fork\n", ts, phil->id);
+	if(flags_up(phil, phil->table)== false)
+	{
+		ts = get_time() - phil->table->sim_start_time;
+		if (state == 1)
+			printf("\e[31m%llu %u is thinking\n", ts, phil->id);
+		else if (state == 2)
+			printf("\e[32m%llu %u is eating\n", ts, phil->id);
+		else if (state == 3)
+			printf("\e[35m%llu %u is sleeping\n", ts, phil->id);
+		else if (state == 5)
+			printf("\e[36m%llu %u has taken a fork\n", ts, phil->id);
+		else if (state == 6)
+			printf("\e[36m%llu %u has taken a fork\n", ts, phil->id);
+	}
 	pthread_mutex_unlock(&phil->table->print_lock);
+	return (1);
 }
 
 int	get_time(void)
@@ -52,8 +53,7 @@ void	ft_sleep(unsigned long long ms, t_phil *phil)
 	time = get_time();
 	while ((get_time() - time) < ms)
 	{
-		flags_up(phil, phil->table);
-		usleep (500);
+		usleep (100);
 	}
 }
 

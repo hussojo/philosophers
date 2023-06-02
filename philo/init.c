@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/01 10:41:21 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/02 14:38:13 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,15 @@ t_phil	**init_phil(int ac, t_table *table)
 	{
 		phil[i] = malloc(sizeof(t_phil) * 1);
 		if (!phil[i])
-			free_func(table);
+			return (NULL);
+			// free_func(table);
 		phil[i]->p = 0;
 		phil[i]->id = i + 1;
 		phil[i]->meals_eaten = 0;
-		phil[i]->all_meals_eaten = 0;
+		phil[i]->all_meals = 0;
 		phil[i]->last_time_eat = table->sim_start_time;
-		// printf("IN PHIL INIT: last meal: %llu\n", phil[i]->last_time_eat);
 		if (pthread_mutex_init(&phil[i]->meal_lock, NULL))
-			return (false);
+			return (NULL);
 		phil[i]->table = table;
 		i++;
 	}
@@ -81,17 +81,17 @@ t_table	*init_table(int ac, char **av)
 		table->meal_count = ft_atoi(av[5]);
 	else
 		table->meal_count = -1;
-	// printf("table_meal_count: %i\n", table->meal_count);
 	table->dead_flag = 0;
-	// table->dead_id = -1;
 	table->sim_start_time = get_time();
-	// printf("IN TABLE INIT: SIM START: %llu\n", table->sim_start_time);
 	table->all_eat = 0;
 	table->meal_flag = 0;
 	table->phil = init_phil(ac, table);
+	if (table->phil == NULL)
+		return (NULL);
 	if (init_mutex(table) == false)
-		return (0);
+		return (NULL);
 	if (init_forks(table) == false)
-		return (0);
+		return (NULL);
+	table->start_flag = 0;
 	return (table);
 }

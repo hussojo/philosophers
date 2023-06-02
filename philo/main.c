@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/01 10:47:55 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/02 16:12:45 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,65 +15,71 @@
 void	stop(t_phil *phil, t_table *table)
 {
 	int					i;
-	unsigned long long	ts;
-	pthread_mutex_unlock(&table->maintenance);
+
 	i = 0;
-	pthread_mutex_lock(&table->print_lock);
-	if (table->dead_flag == 1)
+	while (i < table->phil_count)
 	{
-		ts = get_time() - table->sim_start_time;
-		printf("***HERE***%i\n", table->phil[i]->id);
-		print_status(4, phil);
-		// printf("\e[31m %llu %i died\n", ts, phil->id);
+		pthread_join(table->phil[i]->p, NULL);
+		i++;
 	}
-	pthread_mutex_unlock(&table->print_lock);
-	pthread_mutex_destroy(&table->maintenance);
-	pthread_mutex_destroy(&table->start_lock);
-	pthread_mutex_destroy(&table->print_lock);
 	i = 0;
 	while (i < table->phil_count)
 	{
 		pthread_mutex_destroy(table->fork_lock);
 		i++;
 	}
-	exit(0);
+	pthread_mutex_destroy(&table->maintenance);
+	pthread_mutex_destroy(&table->start_lock);
+	pthread_mutex_destroy(&table->print_lock);
+	// exit(0);
 }
 
 static bool	start(t_table *table)
 {
 	int	i;
 
+
 	i = 0;
+	// table->sim_start_time = get_time();
 	pthread_mutex_lock(&table->start_lock);
+	// printf("start time: %llu\n", table->sim_start_time);
 	while (i < table->phil_count)
 	{
 		if (pthread_create(&table->phil[i]->p, NULL, &routine, table->phil[i]))
 			return (false);
 		i++;
 	}
+	table->start_flag = 1;
+	table->sim_start_time = get_time();
 	pthread_mutex_unlock(&table->start_lock);
 	return (true);
 }
 
 int	main(int ac, char **av)
 {
+	// printf("****HERE MAIN****");
 	t_phil				*phil;
 	t_table				*table;
 	unsigned int		start_time;
 	unsigned long long	ts;
 
 	if (ac < 5 || ac > 6)
-		exit (1);
+		exit (1); //
 	if (valid_args(ac, av) == false)
-		exit (1);
+		exit (1); //
 	table = init_table(ac, av);
 	if (!table)
-		exit (1);
-	start(table);
-	while (42)
+		exit (1); //
+	if (start(table) == true)
 	{
-		if (monitor(table) == false)
-			stop(phil, table);
+		while (42)
+		{
+			if (!monitor(table) == true)
+				break ;
+			usleep (50);
+		}
+		stop(phil, table);
 	}
+	free_func(table);
 	return (0);
 }

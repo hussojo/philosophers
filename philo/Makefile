@@ -6,7 +6,7 @@
 #    By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/15 13:19:55 by jhusso            #+#    #+#              #
-#    Updated: 2023/06/01 09:49:40 by jhusso           ###   ########.fr        #
+#    Updated: 2023/06/02 11:48:47 by jhusso           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,12 @@ NAME = philo
 SRC = main.c utils.c checks.c doos.c init.c free.c
 OBJ = $(SRC:.c=.o)
 CC = cc
-FLAGS = -Wall -Wextra -Werror # -g -w -fsanitize=thread
-# -static-libsan
+FLAGS = -Wall -Wextra -Werror -o2 -g -w -fsanitize=thread -static-libsan
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(FLAGS) $(OBJ)
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
 
 clean:
 	rm -f $(NAME) $(OBJ)

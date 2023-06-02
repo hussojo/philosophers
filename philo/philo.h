@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/01 10:41:26 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/02 16:47:41 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,19 @@
 // # define FORK "has taken a fork" 6
 // # define ERROR "xxx" 7
 
-typedef struct s_phil	t_phil;
 
+typedef struct s_phil
+{
+	pthread_t			p;
+	unsigned int		id;
+	unsigned int		meals_eaten;
+	unsigned int		all_meals;
+	unsigned long long	last_time_eat;
+	// unsigned int		dead_flag;
+	pthread_mutex_t		meal_lock;
+	struct	s_table		*table;
+}
+						t_phil;
 typedef struct s_table
 {
 	unsigned int		phil_count;
@@ -45,7 +56,7 @@ typedef struct s_table
 	unsigned int		time_to_eat;
 	unsigned int		time_to_sleep;
 	int					meal_count;
-	unsigned int		dead_flag; // 1 = on 0 = off
+	unsigned int		dead_flag;
 	// int					dead_id; // 1 = on 0 = off
 	unsigned long long	sim_start_time;
 	unsigned int		all_eat;
@@ -53,21 +64,11 @@ typedef struct s_table
 	t_phil				**phil;
 	pthread_mutex_t		start_lock;
 	pthread_mutex_t		print_lock;
-	pthread_mutex_t		*fork_lock;
 	pthread_mutex_t		maintenance;
+	pthread_mutex_t		*fork_lock;
+	int	start_flag;
 }						t_table;
 
-typedef struct s_phil
-{
-	pthread_t			p;
-	unsigned int		id;
-	unsigned int		meals_eaten;
-	unsigned int		all_meals_eaten;
-	unsigned long long	last_time_eat;
-	// unsigned int		dead_flag;
-	pthread_mutex_t		meal_lock;
-	t_table				*table;
-}						t_phil;
 
 // main.c
 void		stop(t_phil *phil, t_table *table);
@@ -83,20 +84,20 @@ t_table		*init_table(int ac, char **av);
 static bool	is_onlydig(char *c);
 bool		valid_args(int ac, char **av);
 bool		is_dead(t_phil *phil, t_table *table);
-bool		all_meals_eaten(t_phil *phil, t_table *table);
+// bool		all_meals_eaten(t_phil *phil, t_table *table);
 bool		flags_up(t_phil *phil, t_table *table);
 
 // utils.c
-void	print_status(int state, t_phil *phil);
+int	print_status(int state, t_phil *phil);
 int		get_time(void);
 void	ft_sleep(unsigned long long ms, t_phil *phil);
 int		ft_atoi(const char *nptr);
 
 // doos.c
-void	sleeping(t_phil *phil);
-void	eat(t_phil *phil);
-void	*routine(void *data);
-bool	monitor(t_table *table);
+static int	sleeping(t_phil *phil);
+static int	eat(t_phil *phil);
+void		*routine(void *data);
+bool		monitor(t_table *table);
 
 // free.c
 void	free_func(t_table *table);
