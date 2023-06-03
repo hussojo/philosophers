@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/02 14:38:13 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/03 14:36:16 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,37 @@ static bool	init_forks(t_table *table)
 
 static bool	init_mutex(t_table *table)
 {
-	if (pthread_mutex_init(&table->start_lock, NULL))
-		return (false);
-	if (pthread_mutex_init(&table->print_lock, NULL))
-		return (false);
 	if (pthread_mutex_init(&table->maintenance, NULL))
 		return (false);
 	return (true);
 }
+
+// void	assign_forks(t_table *table)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < table->phil_count)
+// 	{
+// 		if (table->phil[i]->id % 2)
+// 		{
+// 			table->phil[i]->fork[0] = table->fork_lock[i];
+// 			if ((i + 1) == table->phil_count)
+// 				table->phil[i]->fork[1] = table->fork_lock[0];
+// 			else
+// 				table->phil[i]->fork[1] = table->fork_lock[i + 1];
+// 		}
+// 		else
+// 		{
+// 			table->phil[i]->fork[1] = table->fork_lock[i];
+// 			if ((i + 1) == table->phil_count)
+// 				table->phil[i]->fork[0] = table->fork_lock[0];
+// 			else
+// 				table->phil[i]->fork[0] = table->fork_lock[i + 1];
+// 		}
+// 		i++;
+// 	}
+// }
 
 t_phil	**init_phil(int ac, t_table *table)
 {
@@ -58,6 +81,7 @@ t_phil	**init_phil(int ac, t_table *table)
 		phil[i]->meals_eaten = 0;
 		phil[i]->all_meals = 0;
 		phil[i]->last_time_eat = table->sim_start_time;
+		// assign_forks(table);
 		if (pthread_mutex_init(&phil[i]->meal_lock, NULL))
 			return (NULL);
 		phil[i]->table = table;
@@ -92,6 +116,5 @@ t_table	*init_table(int ac, char **av)
 		return (NULL);
 	if (init_forks(table) == false)
 		return (NULL);
-	table->start_flag = 0;
 	return (table);
 }
