@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/02 16:47:41 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/03 10:28:07 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ t_table		*init_table(int ac, char **av);
 // checks.c
 static bool	is_onlydig(char *c);
 bool		valid_args(int ac, char **av);
-bool		is_dead(t_phil *phil, t_table *table);
+int		is_dead(t_phil *phil, t_table *table); // false == 0
 // bool		all_meals_eaten(t_phil *phil, t_table *table);
 bool		flags_up(t_phil *phil, t_table *table);
 
 // utils.c
-int	print_status(int state, t_phil *phil);
+int	print_status(char *state, t_phil *phil);
 int		get_time(void);
 void	ft_sleep(unsigned long long ms, t_phil *phil);
 int		ft_atoi(const char *nptr);

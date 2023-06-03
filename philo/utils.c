@@ -6,13 +6,13 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/02 15:05:35 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/03 10:31:17 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	print_status(int state, t_phil *phil)
+int	print_status(char *state, t_phil *phil)
 {
 	unsigned long long	ts;
 
@@ -20,16 +20,7 @@ int	print_status(int state, t_phil *phil)
 	if(flags_up(phil, phil->table)== false)
 	{
 		ts = get_time() - phil->table->sim_start_time;
-		if (state == 1)
-			printf("\e[31m%llu %u is thinking\n", ts, phil->id);
-		else if (state == 2)
-			printf("\e[32m%llu %u is eating\n", ts, phil->id);
-		else if (state == 3)
-			printf("\e[35m%llu %u is sleeping\n", ts, phil->id);
-		else if (state == 5)
-			printf("\e[36m%llu %u has taken a fork\n", ts, phil->id);
-		else if (state == 6)
-			printf("\e[36m%llu %u has taken a fork\n", ts, phil->id);
+		printf("%llu %u %s\n", ts, phil->id, state);
 	}
 	pthread_mutex_unlock(&phil->table->print_lock);
 	return (1);

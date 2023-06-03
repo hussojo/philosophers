@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:21:00 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/02 14:33:57 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/03 10:43:27 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ bool	valid_args(int ac, char **av)
 	return (true);
 }
 
-bool	is_dead(t_phil *phil, t_table *table)
+int	is_dead(t_phil *phil, t_table *table)
 {
 	pthread_mutex_lock(&phil->meal_lock);
 	if (phil->table->time_to_die <= (get_time() - phil->last_time_eat))
 	{
 		phil->table->dead_flag = 1;
-		printf("DEAD\n");
+		// printf("DEAD\n");
 		pthread_mutex_unlock(&phil->meal_lock);
-		return (true);
+		return (1);
 	}
 	if (phil->meals_eaten >= table->meal_count && phil->all_meals == 0)
 	{
@@ -57,13 +57,13 @@ bool	is_dead(t_phil *phil, t_table *table)
 	}
 	if (table->all_eat >= table->phil_count)
 	{
-		printf("EATEN\n");
+		// printf("EATEN\n");
 		table->meal_flag = 1;
 		pthread_mutex_unlock(&phil->meal_lock);
-		return (true);
+		return (2);
 	}
 	pthread_mutex_unlock(&phil->meal_lock);
-	return (false);
+	return (0); // false == 0
 }
 
 // bool	all_meals_eaten(t_phil *phil, t_table *table)

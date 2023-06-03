@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/02 16:12:45 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/03 10:56:14 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,8 @@ int	main(int ac, char **av)
 		exit (1); //
 	if (start(table) == true)
 	{
-		while (42)
-		{
-			if (!monitor(table) == true)
-				break ;
-			usleep (50);
-		}
+		if (monitor(table) == false)
+			break ;
 		stop(phil, table);
 	}
 	free_func(table);
