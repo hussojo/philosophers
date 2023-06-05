@@ -6,32 +6,28 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:41:35 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/03 16:55:34 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/05 16:13:24 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/* Here we print what Phil is dosing, and one Phil enters at a time, either from monitor
-("died") or routine or sleep */
+/*  */
 
 int	print_status(char *state, t_phil *phil)
 {
 	unsigned long long	ts;
 
-	pthread_mutex_lock(&phil->table->maintenance);
-	if(is_dead(phil, phil->table))
+	pthread_mutex_lock(&phil->table->table_lock);
+	if(died(phil) == false)
 	{
 		ts = get_time() - phil->table->sim_start_time;
 		printf("%llu %u %s\n", ts, phil->id, state);
+		pthread_mutex_unlock(&phil->table->table_lock);
+		return (1);
 	}
-	else
-	{
-		pthread_mutex_unlock(&phil->table->maintenance);
-		return (0);
-	}
-	pthread_mutex_unlock(&phil->table->maintenance);
-	return (1);
+	pthread_mutex_unlock(&phil->table->table_lock);
+	return (0);
 }
 
 

@@ -6,7 +6,7 @@
 #    By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/15 13:19:55 by jhusso            #+#    #+#              #
-#    Updated: 2023/06/03 15:07:09 by jhusso           ###   ########.fr        #
+#    Updated: 2023/06/05 16:11:53 by jhusso           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 SRC = main.c utils.c checks.c doos.c init.c free.c
 OBJ = $(SRC:.c=.o)
 CC = cc
-FLAGS = -Wall -Wextra -Werror -o2 -g -w -fsanitize=thread -static-libsan
+FLAGS = -Wall -Wextra -Werror -o2 -g -w # -fsanitize=thread -static-libsan
 
 all: $(NAME)
 

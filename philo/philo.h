@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:47 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/03 15:00:55 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/05 16:08:53 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_phil
 	unsigned int		meals_eaten;
 	unsigned int		all_meals;
 	unsigned long long	last_time_eat;
-	pthread_mutex_t		meal_lock;
+	pthread_mutex_t		phil_lock;
 	struct	s_table		*table;
 }
 						t_phil;
@@ -54,12 +54,12 @@ typedef struct s_table
 	unsigned int		time_to_eat;
 	unsigned int		time_to_sleep;
 	int					meal_count;
-	unsigned int		dead_flag;
+	unsigned int		stop_flag;
 	unsigned long long	sim_start_time;
 	unsigned int		all_eat;
 	unsigned int		meal_flag;
 	t_phil				**phil;
-	pthread_mutex_t		maintenance;
+	pthread_mutex_t		table_lock;
 	pthread_mutex_t		*fork_lock;
 	int					start_flag;
 }						t_table;
@@ -72,7 +72,6 @@ static bool	start(t_table *table);
 // init.c
 static bool	init_forks(t_table *table);
 static bool	init_mutex(t_table *table);
-void	assign_forks(t_table *table);
 t_phil		**init_phil(int ac, t_table *table);
 t_table		*init_table(int ac, char **av);
 
@@ -81,7 +80,7 @@ static bool	is_onlydig(char *c);
 bool		valid_args(int ac, char **av);
 int			is_dead(t_phil *phil, t_table *table); // false == 0
 // bool		all_meals_eaten(t_phil *phil, t_table *table);
-bool		flags_up(t_phil *phil);
+bool		died(t_phil *phil);
 
 // utils.c
 int		print_status(char *state, t_phil *phil);

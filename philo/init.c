@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:09:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/03 14:36:16 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/05 16:07:15 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static bool	init_forks(t_table *table)
 
 static bool	init_mutex(t_table *table)
 {
-	if (pthread_mutex_init(&table->maintenance, NULL))
+	if (pthread_mutex_init(&table->table_lock, NULL))
 		return (false);
 	return (true);
 }
@@ -82,7 +82,7 @@ t_phil	**init_phil(int ac, t_table *table)
 		phil[i]->all_meals = 0;
 		phil[i]->last_time_eat = table->sim_start_time;
 		// assign_forks(table);
-		if (pthread_mutex_init(&phil[i]->meal_lock, NULL))
+		if (pthread_mutex_init(&phil[i]->phil_lock, NULL))
 			return (NULL);
 		phil[i]->table = table;
 		i++;
@@ -105,7 +105,7 @@ t_table	*init_table(int ac, char **av)
 		table->meal_count = ft_atoi(av[5]);
 	else
 		table->meal_count = -1;
-	table->dead_flag = 0;
+	table->stop_flag = 0;
 	table->sim_start_time = get_time();
 	table->all_eat = 0;
 	table->meal_flag = 0;

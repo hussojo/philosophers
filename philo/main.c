@@ -6,7 +6,7 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/03 16:43:43 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/05 16:02:58 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	stop(t_phil *phil, t_table *table)
 		pthread_mutex_destroy(table->fork_lock);
 		i++;
 	}
-	pthread_mutex_destroy(&table->maintenance);
+	pthread_mutex_destroy(&table->table_lock); // remember to destroy others too!!
 }
 
 static bool	start(t_table *table)
@@ -37,7 +37,7 @@ static bool	start(t_table *table)
 
 
 	i = 0;
-	pthread_mutex_lock(&table->maintenance);
+	pthread_mutex_lock(&table->table_lock);
 	while (i < table->phil_count)
 	{
 		if (pthread_create(&table->phil[i]->p, NULL, &routine, table->phil[i]))
@@ -45,7 +45,7 @@ static bool	start(t_table *table)
 		i++;
 	}
 	table->sim_start_time = get_time();
-	pthread_mutex_unlock(&table->maintenance);
+	pthread_mutex_unlock(&table->table_lock);
 	return (true);
 }
 
