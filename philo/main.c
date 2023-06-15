@@ -6,70 +6,67 @@
 /*   By: jhusso <jhusso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:19:59 by jhusso            #+#    #+#             */
-/*   Updated: 2023/06/05 16:02:58 by jhusso           ###   ########.fr       */
+/*   Updated: 2023/06/11 11:35:11 by jhusso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	stop(t_phil *phil, t_table *table)
+static bool	stop(t_table *table)
 {
-	int					i;
+	int	i;
 
 	i = 0;
 	while (i < table->phil_count)
 	{
-		pthread_join(table->phil[i]->p, NULL);
+		if (pthread_join(table->phil[i].p, NULL))
+			return (false);
 		i++;
 	}
 	i = 0;
 	while (i < table->phil_count)
 	{
-		pthread_mutex_destroy(table->fork_lock);
+		if (!pthread_mutex_destroy(table->fork_lock))
+			return (false);
 		i++;
 	}
-	pthread_mutex_destroy(&table->table_lock); // remember to destroy others too!!
+	pthread_mutex_destroy(&table->table_lock);
+	pthread_mutex_destroy(&table->start_lock);
+	pthread_mutex_destroy(&table->print_lock);
+	return (true);
 }
 
 static bool	start(t_table *table)
 {
 	int	i;
 
-
 	i = 0;
-	pthread_mutex_lock(&table->table_lock);
+	pthread_mutex_lock(&table->start_lock);
 	while (i < table->phil_count)
 	{
-		if (pthread_create(&table->phil[i]->p, NULL, &routine, table->phil[i]))
+		if (pthread_create(&table->phil[i].p, NULL, &routine, &table->phil[i]))
 			return (false);
 		i++;
 	}
-	table->sim_start_time = get_time();
-	pthread_mutex_unlock(&table->table_lock);
+	pthread_mutex_unlock(&table->start_lock);
 	return (true);
 }
 
 int	main(int ac, char **av)
 {
-	t_phil				*phil;
-	t_table				*table;
-	unsigned int		start_time;
-	unsigned long long	ts;
+	t_table	table;
 
 	if (ac < 5 || ac > 6)
-		printf("Invalid amount of arguments\n");
+		return (-1);
 	if (valid_args(ac, av) == false)
-		printf("Invalid arguments\n");
-	table = init_table(ac, av);
-	if (!table)
 		return (-1);
-	if (start(table) == false)
+	if (init_table(ac, av, &table) == false)
 		return (-1);
-	if (monitor(table) == false)
+	if (start(&table) == true)
 	{
-		// printf("HERE IN MAIN\n");
-		stop(phil, table);
-		free_func(table);
+		monitor(&table);
+		stop(&table);
+		free_func(&table);
 	}
 	return (0);
 }
